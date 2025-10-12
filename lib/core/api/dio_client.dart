@@ -31,7 +31,7 @@ class DioClient {
           )
       );
 
-  Future<Either<Failure, T>> getRequest<T>(String apiPath, {
+  Future<Either<Failure, T>> get<T>(String apiPath, {
     Map<String, dynamic>? queryParameters,
     required ResponseConverter<T> converter
   }) async {
