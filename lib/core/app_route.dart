@@ -20,7 +20,7 @@ enum Routes {
 
   final String path;
 
-  String withPathParameter(String parameter) => "$path/$parameter";
+  String withParameter(String parameter) => "$path/$parameter";
 }
 
 class AppRouter {
@@ -58,7 +58,7 @@ class AppRouter {
               )
             ]),
         GoRoute(
-            path: Routes.subcategories.withPathParameter(':parentId'),
+            path: Routes.subcategories.withParameter(':parentId'),
             builder: (context, state) {
               final parentId = state.pathParameters['parentId']!;
               return BlocProvider.value(

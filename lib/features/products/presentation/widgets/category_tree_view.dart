@@ -3,114 +3,260 @@ import 'package:go_router/go_router.dart';
 
 import '../../domain/entities/category.dart';
 
-class CategoryTreeView extends StatelessWidget {
-  final List<Category> categories;
-  final int level;
+class AnimatedCategoryTreeItem extends StatelessWidget {
+  final Category category;
+  final int index;
 
-  const CategoryTreeView({
+  const AnimatedCategoryTreeItem({
     super.key,
-    required this.categories,
-    this.level = 0,
+    required this.category,
+    required this.index,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: categories
-            .map((category) => CategoryTreeItem(
-                  category: category,
-                  level: level,
-                ))
-            .toList(),
-      ),
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 400 + (index * 100)),
+      curve: Curves.easeOutCubic,
+      transform: Matrix4.translationValues(0, 0, 0),
+      child: FadeInCategoryTreeItem(category: category),
     );
   }
 }
 
-class CategoryTreeItem extends StatefulWidget {
+class FadeInCategoryTreeItem extends StatefulWidget {
   final Category category;
-  final int level;
 
-  const CategoryTreeItem({
-    super.key,
-    required this.category,
-    required this.level,
-  });
+  const FadeInCategoryTreeItem({super.key, required this.category});
 
   @override
-  State<CategoryTreeItem> createState() => _CategoryTreeItemState();
+  State<FadeInCategoryTreeItem> createState() => _FadeInCategoryTreeItemState();
 }
 
-class _CategoryTreeItemState extends State<CategoryTreeItem> {
+class _FadeInCategoryTreeItemState extends State<FadeInCategoryTreeItem>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOut,
+      ),
+    );
+
+    _slideAnimation = Tween<double>(begin: 20.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOut,
+      ),
+    );
+
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return Opacity(
+          opacity: _fadeAnimation.value,
+          child: Transform.translate(
+            offset: Offset(0, _slideAnimation.value),
+            child: child,
+          ),
+        );
+      },
+      child: _CategoryTreeItemContent(category: widget.category),
+    );
+  }
+}
+
+class _CategoryTreeItemContent extends StatefulWidget {
+  final Category category;
+
+  const _CategoryTreeItemContent({required this.category});
+
+  @override
+  State<_CategoryTreeItemContent> createState() =>
+      __CategoryTreeItemContentState();
+}
+
+class __CategoryTreeItemContentState extends State<_CategoryTreeItemContent> {
   bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     final hasChildren = widget.category.hasChildren;
-    final paddingLeft = 16.0 + (widget.level * 24.0);
+    final productCount = widget.category.productCount;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Card(
-          margin: EdgeInsets.only(
-            left: paddingLeft,
-            right: 16,
-            top: 4,
-            bottom: 4,
-          ),
-          child: ListTile(
-            leading: Text(
-              widget.category.icon ?? '🐾',
-              style: const TextStyle(fontSize: 24),
-            ),
-            title: Text(
-              widget.category.name,
-              style: TextStyle(
-                fontWeight:
-                    widget.level == 0 ? FontWeight.bold : FontWeight.normal,
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      child: Column(
+        children: [
+          // Main category item
+          Material(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(16),
+              onTap: () => _handleTap(context),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: Colors.grey[200]!,
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    // Icon
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Theme.of(context).colorScheme.primary.withOpacity(0.8),
+                            Theme.of(context).colorScheme.primary.withOpacity(0.4),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          widget.category.icon ?? '🐾',
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+
+                    // Content
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.category.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${widget.category.productCount} товаров',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          if (widget.category.description != null) ...[
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.category.description!,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey[500],
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+
+                    // Actions
+                    if (hasChildren) ...[
+                      IconButton(
+                        icon: Icon(
+                          _isExpanded ? Icons.arrow_upward : Icons.arrow_downward,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        onPressed: () {
+                          setState(() => _isExpanded = !_isExpanded);
+                        },
+                      ),
+                    ] else ...[
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'Товары',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ),
             ),
-            subtitle: Text('${widget.category.productCount} товаров'),
-            trailing: hasChildren
-                ? IconButton(
-                    icon: Icon(
-                      _isExpanded ? Icons.expand_less : Icons.expand_more,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isExpanded = !_isExpanded;
-                      });
-                    },
-                  )
-                : null,
-            onTap: () {
-              if (hasChildren) {
-                setState(() {
-                  _isExpanded = !_isExpanded;
-                });
-              } else {
-                context.go(
-                  '/products?category=${widget.category.id}',
-                  extra: {'categoryName': widget.category.name},
-                );
-              }
-            },
           ),
-        ),
 
-        // Анимированное появление подкатегорий
-        if (hasChildren && _isExpanded && widget.category.children != null)
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            child: CategoryTreeView(
-              categories: widget.category.children!,
-              level: widget.level + 1,
+          // Children categories
+          if (hasChildren && _isExpanded && widget.category.children != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 24, top: 8),
+              child: Column(
+                children: widget.category.children!
+                    .map((child) => AnimatedCategoryTreeItem(
+                  category: child,
+                  index: 0,
+                ))
+                    .toList(),
+              ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
+  }
+
+  void _handleTap(BuildContext context) {
+    if (widget.category.hasChildren) {
+      if (!_isExpanded) {
+        setState(() => _isExpanded = true);
+      }
+    } else {
+      context.go(
+        '/products?category=${widget.category.id}',
+        extra: {'categoryName': widget.category.name},
+      );
+    }
   }
 }
