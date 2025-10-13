@@ -43,6 +43,7 @@ dependencies:
   dartz: ^0.10.1
   json_serializable: ^6.9.4
   cached_network_image: ^3.4.1
+  iconsax: ^0.0.8
 
 dev_dependencies:
   flutter_test:

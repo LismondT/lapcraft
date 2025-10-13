@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../domain/entities/category.dart';
 import '../cubits/category_cubit.dart';
@@ -105,7 +106,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
         children: [
           _buildViewModeButton(
             context,
-            icon: Icons.grid_view_rounded,
+            icon: Iconsax.grid_5,
             isActive: _currentViewMode == ViewMode.grid,
             onTap: () {
               if (_currentViewMode != ViewMode.grid) {
@@ -116,7 +117,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
           ),
           _buildViewModeButton(
             context,
-            icon: Icons.view_list_rounded,
+            icon: Iconsax.category,
             isActive: _currentViewMode == ViewMode.tree,
             onTap: () {
               if (_currentViewMode != ViewMode.tree) {
@@ -308,14 +309,14 @@ class _CategoriesPageState extends State<CategoriesPage> {
               children: [
                 _buildActionButton(
                   context,
-                  icon: Icons.refresh,
+                  icon: Iconsax.refresh,
                   text: 'Обновить',
                   onPressed: () => context.read<CategoryCubit>().loadCategories(),
                 ),
                 const SizedBox(width: 12),
                 _buildActionButton(
                   context,
-                  icon: Icons.support,
+                  icon: Iconsax.support,
                   text: 'Помощь',
                   onPressed: () {
                     // TODO: Добавить обработку помощи

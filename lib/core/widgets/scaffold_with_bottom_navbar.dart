@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lapcraft/core/core.dart';
-import 'package:lapcraft/dependencies_injection.dart';
-import 'package:lapcraft/features/cart/pages/cart_page/cubit/cart_cubit.dart';
-import 'package:lapcraft/features/products/presentation/cubits/category_cubit.dart';
 
 class ScaffoldWithBottomNavBar extends StatefulWidget {
   final Widget child;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../domain/entities/category.dart';
 
@@ -192,7 +193,7 @@ class __CategoryTreeItemContentState extends State<_CategoryTreeItemContent> {
                     if (hasChildren) ...[
                       IconButton(
                         icon: Icon(
-                          _isExpanded ? Icons.arrow_upward : Icons.arrow_downward,
+                          _isExpanded ? Iconsax.arrow_up_2 : Iconsax.arrow_down_1,
                           size: 20,
                           color: Theme.of(context).colorScheme.primary,
                         ),

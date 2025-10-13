@@ -5,7 +5,6 @@ import 'package:lapcraft/features/cart/data/datasources/cart_debug_datasource.da
 import 'package:lapcraft/features/cart/data/repositories/cart_repository_impl.dart';
 import 'package:lapcraft/features/cart/domain/repositories/cart_repository.dart';
 import 'package:lapcraft/features/cart/domain/usecases/get_cart_items.dart';
-import 'package:lapcraft/features/cart/pages/cart_page/cubit/cart_cubit.dart';
 import 'package:lapcraft/features/features.dart';
 import 'package:lapcraft/features/products/data/datasources/category_debug_datasource.dart';
 import 'package:lapcraft/features/products/data/datasources/category_remote_datasource.dart';
@@ -17,6 +16,7 @@ import 'package:lapcraft/features/products/presentation/cubits/category_cubit.da
 
 import 'features/cart/domain/usecases/add_cart_item.dart';
 import 'features/cart/domain/usecases/remove_cart_item.dart';
+import 'features/cart/presentation/cubits/cart_cubit.dart';
 import 'features/products/presentation/cubits/products_cubit.dart';
 
 GetIt sl = GetIt.instance;

@@ -40,7 +40,10 @@ class CategoryCubit extends Cubit<CategoryState> {
 
     result.fold(
       (failure) => emit(CategoryState.error(failure.toString())),
-      (categories) => emit(CategoryState.categoriesLoaded(categories)),
+      (categories) {
+        emit(CategoryState.categoriesLoaded(categories));
+        _lastCategories = categories;
+      },
     );
   }
 
@@ -59,7 +62,10 @@ class CategoryCubit extends Cubit<CategoryState> {
 
     result.fold(
       (failure) => emit(CategoryState.error(failure.toString())),
-      (categories) => emit(CategoryState.categoryTreeLoaded(categories)),
+      (categories) {
+        emit(CategoryState.categoryTreeLoaded(categories));
+        _lastCategoryTree = categories;
+      },
     );
   }
 
@@ -76,8 +82,10 @@ class CategoryCubit extends Cubit<CategoryState> {
 
     result.fold(
       (failure) => emit(CategoryState.error(failure.toString())),
-      (categories) =>
-          emit(CategoryState.subcategoriesLoaded(categories, parentId)),
+      (categories) {
+          emit(CategoryState.subcategoriesLoaded(categories, parentId));
+          _lastSubcategories = categories;
+      }
     );
   }
 

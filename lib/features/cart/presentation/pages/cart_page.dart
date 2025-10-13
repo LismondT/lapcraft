@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lapcraft/features/cart/pages/cart_page/cubit/cart_cubit_states.dart';
 import 'package:lapcraft/features/products/domain/entities/product.dart';
 
-import 'cubit/cart_cubit.dart';
+import '../cubits/cart_cubit.dart';
+import '../cubits/cart_cubit_states.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});

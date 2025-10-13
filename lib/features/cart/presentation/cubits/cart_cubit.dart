@@ -3,8 +3,9 @@ import 'package:lapcraft/core/core.dart';
 import 'package:lapcraft/features/cart/domain/usecases/add_cart_item.dart';
 import 'package:lapcraft/features/cart/domain/usecases/get_cart_items.dart';
 import 'package:lapcraft/features/cart/domain/usecases/remove_cart_item.dart';
-import 'package:lapcraft/features/cart/pages/cart_page/cubit/cart_cubit_states.dart';
 import 'package:lapcraft/features/products/domain/entities/product.dart';
+
+import 'cart_cubit_states.dart';
 
 class CartCubit extends Cubit<CartState> {
   CartCubit(this._getCartItems, this._addCartItem, this._removeCartItem)

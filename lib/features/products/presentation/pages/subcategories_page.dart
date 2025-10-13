@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../domain/entities/category.dart';
 import '../cubits/category_cubit.dart';
@@ -89,7 +90,7 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
-                      Icons.arrow_left,
+                      Iconsax.arrow_left_2,
                       color: Colors.white,
                       size: 20,
                     ),
@@ -105,7 +106,7 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
-                        Icons.search,
+                        Iconsax.search_normal,
                         color: Colors.white,
                         size: 20,
                       ),
@@ -316,7 +317,7 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
             ),
             const SizedBox(width: 4),
             Icon(
-              Icons.arrow_right,
+              Iconsax.arrow_right_3,
               size: 14,
               color: Theme.of(context).colorScheme.primary,
             ),
@@ -341,7 +342,7 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
                 shape: BoxShape.circle,
               ),
               child: const Icon(
-                Icons.folder_open,
+                Iconsax.folder_open,
                 size: 60,
                 color: Colors.grey,
               ),
@@ -386,7 +387,7 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                Icons.close,
+                Iconsax.close_circle,
                 size: 60,
                 color: Theme.of(context).colorScheme.error,
               ),
@@ -410,7 +411,7 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
-              icon: const Icon(Icons.refresh),
+              icon: const Icon(Iconsax.refresh),
               label: const Text('Попробовать снова'),
               onPressed: _loadSubcategories,
               style: ElevatedButton.styleFrom(

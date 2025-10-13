@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../domain/entities/category.dart';
 
@@ -221,7 +222,7 @@ class _FadeInCategoryCardState extends State<FadeInCategoryCard>
               borderRadius: BorderRadius.circular(6),
             ),
             child: Icon(
-              Icons.arrow_right,
+              Iconsax.arrow_right_3,
               size: MediaQuery.of(context).size.width * 0.03,
               color: Theme.of(context).colorScheme.primary,
             ),
@@ -251,7 +252,7 @@ class _FadeInCategoryCardState extends State<FadeInCategoryCard>
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.folder,
+              Iconsax.folder,
               size: 10,
               color: Colors.orange,
             ),
@@ -280,7 +281,7 @@ class _FadeInCategoryCardState extends State<FadeInCategoryCard>
         },
       );
     } else {
-      context.go(
+      context.push(
         '/products?category=${widget.category.id}',
         extra: {'categoryName': widget.category.name},
       );

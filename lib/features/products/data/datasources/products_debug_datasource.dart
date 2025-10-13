@@ -57,7 +57,7 @@ class ProductsDebugDatasourceImpl implements ProductsDatasource {
         currentPage: page,
         totalPages: (_catalog.length / pageSize).toInt());
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(milliseconds: 500));
 
     return Right(response);
   }
