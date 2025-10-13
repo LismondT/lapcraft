@@ -4,7 +4,9 @@ import 'package:lapcraft/features/cart/data/datasources/cart_datasource.dart';
 import 'package:lapcraft/features/cart/data/datasources/cart_debug_datasource.dart';
 import 'package:lapcraft/features/cart/data/repositories/cart_repository_impl.dart';
 import 'package:lapcraft/features/cart/domain/repositories/cart_repository.dart';
+import 'package:lapcraft/features/cart/domain/usecases/clear_cart.dart';
 import 'package:lapcraft/features/cart/domain/usecases/get_cart_items.dart';
+import 'package:lapcraft/features/cart/domain/usecases/update_cart_item_quantity.dart';
 import 'package:lapcraft/features/features.dart';
 import 'package:lapcraft/features/products/data/datasources/category_debug_datasource.dart';
 import 'package:lapcraft/features/products/data/datasources/category_remote_datasource.dart';
@@ -57,11 +59,13 @@ void _useCases() {
   sl.registerLazySingleton(() => GetCartItems(sl()));
   sl.registerLazySingleton(() => AddCartItem(sl()));
   sl.registerLazySingleton(() => RemoveCartItem(sl()));
+  sl.registerLazySingleton(() => UpdateCartItemQuantity(sl()));
+  sl.registerLazySingleton(() => ClearCart(sl()));
 }
 
 void _cubits() {
   sl.registerFactory(() => CategoryCubit(
       getCategories: sl(), getCategoryTree: sl(), getSubcategories: sl()));
   sl.registerFactory(() => ProductsCubit(sl()));
-  sl.registerFactory(() => CartCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(), sl()));
 }

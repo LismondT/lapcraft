@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lapcraft/core/widgets/scaffold_with_bottom_navbar.dart';
-import 'package:lapcraft/features/products/domain/entities/products.dart';
 import 'package:lapcraft/features/products/presentation/cubits/category_cubit.dart';
 import 'package:lapcraft/features/products/presentation/pages/categories_page.dart';
 import 'package:lapcraft/features/products/presentation/pages/products_page.dart';
@@ -68,24 +67,24 @@ class AppRouter {
                 pageBuilder: (context, state) => NoTransitionPage(
                     key: state.pageKey,
                     child: const Center(child: Text('Страница профиля'))),
-              )
+              ),
+              GoRoute(
+                  path: Routes.subcategories.withParameter(':parentId'),
+                  builder: (context, state) {
+                    final parentId = state.pathParameters['parentId']!;
+                    return BlocProvider.value(
+                      value: context.read<CategoryCubit>()
+                        ..loadSubcategories(parentId),
+                      child: SubcategoriesPage(parentId: parentId),
+                    );
+                  }),
+              GoRoute(
+                  path: Routes.products.path,
+                  builder: (context, state) {
+                    //ToDo Добавить обработку параметров
+                    return const ProductsPage();
+                  }),
             ]),
-        GoRoute(
-            path: Routes.subcategories.withParameter(':parentId'),
-            builder: (context, state) {
-              final parentId = state.pathParameters['parentId']!;
-              return BlocProvider.value(
-                value: context.read<CategoryCubit>()
-                  ..loadSubcategories(parentId),
-                child: SubcategoriesPage(parentId: parentId),
-              );
-            }),
-        GoRoute(
-            path: Routes.products.path,
-            builder: (context, state) {
-              //ToDo Добавить обработку параметров
-              return const ProductsPage();
-            }),
         GoRoute(path: '/', redirect: (context, state) => Routes.categories.path)
       ]);
 }

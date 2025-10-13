@@ -39,7 +39,9 @@ class ProductsDebugDatasourceImpl implements ProductsDatasource {
         article: productData.article,
         title: productData.title,
         description: productData.description,
-        price: productData.price);
+        price: productData.price,
+        imageUrls: productData.imageUrls ?? [],
+        stockQuantity: productData.stockQuantity);
     return Right(response);
   }
 

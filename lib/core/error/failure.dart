@@ -44,3 +44,12 @@ class NetworkFailure extends Failure {
   @override
   String toString() => 'NetworkFailure: No internet connection';
 }
+
+class NotFoundFailure extends Failure {
+  final String message;
+
+  NotFoundFailure(this.message);
+
+  @override
+  String toString() => 'ParsingFailure: $message';
+}

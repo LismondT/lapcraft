@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:lapcraft/core/core.dart';
 
 class ScaffoldWithBottomNavBar extends StatefulWidget {
@@ -42,12 +43,13 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
           },
           type: BottomNavigationBarType.fixed,
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.pets), label: 'Товары'),
+            BottomNavigationBarItem(icon: Icon(Iconsax.pet), label: 'Товары'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.favorite), label: 'Избранное'),
+                icon: Icon(Iconsax.heart), label: 'Избранное'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart), label: 'Корзина'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Профиль'),
+                icon: Icon(Iconsax.shopping_cart), label: 'Корзина'),
+            BottomNavigationBarItem(
+                icon: Icon(Iconsax.profile_circle), label: 'Профиль'),
           ]),
     );
   }
