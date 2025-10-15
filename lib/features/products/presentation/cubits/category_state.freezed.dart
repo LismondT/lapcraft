@@ -37,13 +37,13 @@ class $CategoryStateCopyWith<$Res> {
 
 /// @nodoc
 
-class Initial implements CategoryState {
-  const Initial();
+class CategoryInitial implements CategoryState {
+  const CategoryInitial();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is Initial);
+        (other.runtimeType == runtimeType && other is CategoryInitial);
   }
 
   @override
@@ -57,13 +57,13 @@ class Initial implements CategoryState {
 
 /// @nodoc
 
-class Loading implements CategoryState {
-  const Loading();
+class CategoryLoading implements CategoryState {
+  const CategoryLoading();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is Loading);
+        (other.runtimeType == runtimeType && other is CategoryLoading);
   }
 
   @override
@@ -302,8 +302,8 @@ class _$SubcategoriesLoadedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class Error implements CategoryState {
-  const Error(this.message);
+class CategoryError implements CategoryState {
+  const CategoryError(this.message);
 
   final String message;
 
@@ -311,14 +311,14 @@ class Error implements CategoryState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ErrorCopyWith<Error> get copyWith =>
-      _$ErrorCopyWithImpl<Error>(this, _$identity);
+  $CategoryErrorCopyWith<CategoryError> get copyWith =>
+      _$CategoryErrorCopyWithImpl<CategoryError>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Error &&
+            other is CategoryError &&
             (identical(other.message, message) || other.message == message));
   }
 
@@ -332,20 +332,22 @@ class Error implements CategoryState {
 }
 
 /// @nodoc
-abstract mixin class $ErrorCopyWith<$Res>
+abstract mixin class $CategoryErrorCopyWith<$Res>
     implements $CategoryStateCopyWith<$Res> {
-  factory $ErrorCopyWith(Error value, $Res Function(Error) _then) =
-      _$ErrorCopyWithImpl;
+  factory $CategoryErrorCopyWith(
+          CategoryError value, $Res Function(CategoryError) _then) =
+      _$CategoryErrorCopyWithImpl;
   @useResult
   $Res call({String message});
 }
 
 /// @nodoc
-class _$ErrorCopyWithImpl<$Res> implements $ErrorCopyWith<$Res> {
-  _$ErrorCopyWithImpl(this._self, this._then);
+class _$CategoryErrorCopyWithImpl<$Res>
+    implements $CategoryErrorCopyWith<$Res> {
+  _$CategoryErrorCopyWithImpl(this._self, this._then);
 
-  final Error _self;
-  final $Res Function(Error) _then;
+  final CategoryError _self;
+  final $Res Function(CategoryError) _then;
 
   /// Create a copy of CategoryState
   /// with the given fields replaced by the non-null parameter values.
@@ -353,7 +355,7 @@ class _$ErrorCopyWithImpl<$Res> implements $ErrorCopyWith<$Res> {
   $Res call({
     Object? message = null,
   }) {
-    return _then(Error(
+    return _then(CategoryError(
       null == message
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable

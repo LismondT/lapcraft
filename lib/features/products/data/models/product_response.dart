@@ -12,25 +12,26 @@ sealed class ProductResponse with _$ProductResponse {
     String? title,
     String? description,
     double? price,
-    int? category,
-    int? petCategory,
+    String? category,
     List<String>? imageUrls,
     int? stockQuantity,
+    bool? isFavorite,
   }) = _ProductResponse;
 
-  factory ProductResponse.fromJson(Map<String, dynamic> json) => _$ProductResponseFromJson(json);
+  factory ProductResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProductResponseFromJson(json);
 }
 
 extension ProductResponseToEntity on ProductResponse {
   Product toEntity() => Product(
-      id: id,
-      article: article,
-      title: title,
-      description: description,
-      price: price,
-      category: category,
-      petCategory: petCategory,
-      imageUrls: imageUrls,
-      stockQuantity: stockQuantity
-  );
+        id: id ?? '',
+        article: article ?? 0,
+        title: title ?? 'Без названия',
+        description: description ?? '',
+        price: price ?? 0,
+        category: category ?? '',
+        imageUrls: imageUrls ?? [],
+        stockQuantity: stockQuantity ?? 0,
+        isFavorite: isFavorite ?? false,
+      );
 }

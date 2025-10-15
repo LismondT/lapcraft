@@ -210,10 +210,10 @@ mixin _$ProductData {
   String? get title;
   String? get description;
   double? get price;
-  int? get category;
-  int? get petCategory;
+  String? get category;
   List<String>? get imageUrls;
   int? get stockQuantity;
+  bool? get isFavorite;
 
   /// Create a copy of ProductData
   /// with the given fields replaced by the non-null parameter values.
@@ -238,11 +238,11 @@ mixin _$ProductData {
             (identical(other.price, price) || other.price == price) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.petCategory, petCategory) ||
-                other.petCategory == petCategory) &&
             const DeepCollectionEquality().equals(other.imageUrls, imageUrls) &&
             (identical(other.stockQuantity, stockQuantity) ||
-                other.stockQuantity == stockQuantity));
+                other.stockQuantity == stockQuantity) &&
+            (identical(other.isFavorite, isFavorite) ||
+                other.isFavorite == isFavorite));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -255,13 +255,13 @@ mixin _$ProductData {
       description,
       price,
       category,
-      petCategory,
       const DeepCollectionEquality().hash(imageUrls),
-      stockQuantity);
+      stockQuantity,
+      isFavorite);
 
   @override
   String toString() {
-    return 'ProductData(id: $id, article: $article, title: $title, description: $description, price: $price, category: $category, petCategory: $petCategory, imageUrls: $imageUrls, stockQuantity: $stockQuantity)';
+    return 'ProductData(id: $id, article: $article, title: $title, description: $description, price: $price, category: $category, imageUrls: $imageUrls, stockQuantity: $stockQuantity, isFavorite: $isFavorite)';
   }
 }
 
@@ -277,10 +277,10 @@ abstract mixin class $ProductDataCopyWith<$Res> {
       String? title,
       String? description,
       double? price,
-      int? category,
-      int? petCategory,
+      String? category,
       List<String>? imageUrls,
-      int? stockQuantity});
+      int? stockQuantity,
+      bool? isFavorite});
 }
 
 /// @nodoc
@@ -301,9 +301,9 @@ class _$ProductDataCopyWithImpl<$Res> implements $ProductDataCopyWith<$Res> {
     Object? description = freezed,
     Object? price = freezed,
     Object? category = freezed,
-    Object? petCategory = freezed,
     Object? imageUrls = freezed,
     Object? stockQuantity = freezed,
+    Object? isFavorite = freezed,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -329,11 +329,7 @@ class _$ProductDataCopyWithImpl<$Res> implements $ProductDataCopyWith<$Res> {
       category: freezed == category
           ? _self.category
           : category // ignore: cast_nullable_to_non_nullable
-              as int?,
-      petCategory: freezed == petCategory
-          ? _self.petCategory
-          : petCategory // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       imageUrls: freezed == imageUrls
           ? _self.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
@@ -342,6 +338,10 @@ class _$ProductDataCopyWithImpl<$Res> implements $ProductDataCopyWith<$Res> {
           ? _self.stockQuantity
           : stockQuantity // ignore: cast_nullable_to_non_nullable
               as int?,
+      isFavorite: freezed == isFavorite
+          ? _self.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -356,9 +356,9 @@ class _ProductData implements ProductData {
       this.description,
       this.price,
       this.category,
-      this.petCategory,
       final List<String>? imageUrls,
-      this.stockQuantity})
+      this.stockQuantity,
+      this.isFavorite})
       : _imageUrls = imageUrls;
   factory _ProductData.fromJson(Map<String, dynamic> json) =>
       _$ProductDataFromJson(json);
@@ -374,9 +374,7 @@ class _ProductData implements ProductData {
   @override
   final double? price;
   @override
-  final int? category;
-  @override
-  final int? petCategory;
+  final String? category;
   final List<String>? _imageUrls;
   @override
   List<String>? get imageUrls {
@@ -389,6 +387,8 @@ class _ProductData implements ProductData {
 
   @override
   final int? stockQuantity;
+  @override
+  final bool? isFavorite;
 
   /// Create a copy of ProductData
   /// with the given fields replaced by the non-null parameter values.
@@ -418,12 +418,12 @@ class _ProductData implements ProductData {
             (identical(other.price, price) || other.price == price) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.petCategory, petCategory) ||
-                other.petCategory == petCategory) &&
             const DeepCollectionEquality()
                 .equals(other._imageUrls, _imageUrls) &&
             (identical(other.stockQuantity, stockQuantity) ||
-                other.stockQuantity == stockQuantity));
+                other.stockQuantity == stockQuantity) &&
+            (identical(other.isFavorite, isFavorite) ||
+                other.isFavorite == isFavorite));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -436,13 +436,13 @@ class _ProductData implements ProductData {
       description,
       price,
       category,
-      petCategory,
       const DeepCollectionEquality().hash(_imageUrls),
-      stockQuantity);
+      stockQuantity,
+      isFavorite);
 
   @override
   String toString() {
-    return 'ProductData(id: $id, article: $article, title: $title, description: $description, price: $price, category: $category, petCategory: $petCategory, imageUrls: $imageUrls, stockQuantity: $stockQuantity)';
+    return 'ProductData(id: $id, article: $article, title: $title, description: $description, price: $price, category: $category, imageUrls: $imageUrls, stockQuantity: $stockQuantity, isFavorite: $isFavorite)';
   }
 }
 
@@ -460,10 +460,10 @@ abstract mixin class _$ProductDataCopyWith<$Res>
       String? title,
       String? description,
       double? price,
-      int? category,
-      int? petCategory,
+      String? category,
       List<String>? imageUrls,
-      int? stockQuantity});
+      int? stockQuantity,
+      bool? isFavorite});
 }
 
 /// @nodoc
@@ -484,9 +484,9 @@ class __$ProductDataCopyWithImpl<$Res> implements _$ProductDataCopyWith<$Res> {
     Object? description = freezed,
     Object? price = freezed,
     Object? category = freezed,
-    Object? petCategory = freezed,
     Object? imageUrls = freezed,
     Object? stockQuantity = freezed,
+    Object? isFavorite = freezed,
   }) {
     return _then(_ProductData(
       id: freezed == id
@@ -512,11 +512,7 @@ class __$ProductDataCopyWithImpl<$Res> implements _$ProductDataCopyWith<$Res> {
       category: freezed == category
           ? _self.category
           : category // ignore: cast_nullable_to_non_nullable
-              as int?,
-      petCategory: freezed == petCategory
-          ? _self.petCategory
-          : petCategory // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       imageUrls: freezed == imageUrls
           ? _self._imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
@@ -525,6 +521,10 @@ class __$ProductDataCopyWithImpl<$Res> implements _$ProductDataCopyWith<$Res> {
           ? _self.stockQuantity
           : stockQuantity // ignore: cast_nullable_to_non_nullable
               as int?,
+      isFavorite: freezed == isFavorite
+          ? _self.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }

@@ -2,14 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lapcraft/features/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:lapcraft/features/features.dart';
 
 import '../../../cart/presentation/cubits/cart_cubit.dart';
 
-class ProductDetailPage extends StatelessWidget {
+class ProductPage extends StatelessWidget {
   final Product _product;
 
-  const ProductDetailPage(this._product, {super.key});
+  const ProductPage(this._product, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +19,9 @@ class ProductDetailPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           _buildImageAppBar(context),
-
           _buildProductContent(context),
         ],
       ),
-
       bottomNavigationBar: _buildBottomBar(context),
     );
   }
@@ -56,7 +55,7 @@ class ProductDetailPage extends StatelessWidget {
           child: IconButton(
             icon: const Icon(Iconsax.heart, color: Colors.white),
             onPressed: () {
-              // Add to favorites
+              context.read<FavoritesCubit>().toggleFavorite(_product.id);
             },
           ),
         ),
@@ -138,22 +137,21 @@ class ProductDetailPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Category badge
-        if (_product.category != null)
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              'Категория ${_product.category}',
-              style: TextStyle(
-                fontSize: 12,
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.w500,
-              ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            'Категория ${_product.category}',
+            style: TextStyle(
+              fontSize: 12,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w500,
             ),
           ),
+        ),
 
         const SizedBox(height: 12),
 
@@ -171,9 +169,7 @@ class ProductDetailPage extends StatelessWidget {
 
         // Price
         Text(
-          _product.price != null
-              ? '${_formatPrice(_product.price!)} ₽'
-              : 'Цена не указана',
+          '${_formatPrice(_product.price!)} ₽',
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -257,22 +253,21 @@ class ProductDetailPage extends StatelessWidget {
         const SizedBox(width: 12),
 
         // Article
-        if (_product.article != null)
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              'Арт: ${_product.article}',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey[600],
-                fontWeight: FontWeight.w500,
-              ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Text(
+            'Арт: ${_product.article}',
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
             ),
           ),
+        ),
       ],
     );
   }
@@ -314,9 +309,7 @@ class ProductDetailPage extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         _buildSpecificationItem(
-            'Категория', _product.category?.toString() ?? 'Не указана'),
-        _buildSpecificationItem('Категория питомца',
-            _product.petCategory?.toString() ?? 'Не указана'),
+            'Категория', _product.category.toString() ?? 'Не указана'),
         _buildSpecificationItem(
             'Количество на складе', (_product.stockQuantity ?? 0).toString()),
       ],
@@ -392,9 +385,7 @@ class ProductDetailPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    _product.price != null
-                        ? '${_formatPrice(_product.price!)} ₽'
-                        : 'Цена не указана',
+                    '${_formatPrice(_product.price!)} ₽',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

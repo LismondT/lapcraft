@@ -15,15 +15,15 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Product {
-  String? get id;
-  int? get article;
-  String? get title;
-  String? get description;
-  double? get price;
-  int? get category;
-  int? get petCategory;
-  List<String>? get imageUrls;
-  int? get stockQuantity;
+  String get id;
+  int get article;
+  String get title;
+  double get price;
+  String get category;
+  List<String> get imageUrls;
+  int get stockQuantity;
+  String get description;
+  bool get isFavorite;
 
   /// Create a copy of Product
   /// with the given fields replaced by the non-null parameter values.
@@ -40,16 +40,16 @@ mixin _$Product {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.article, article) || other.article == article) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.petCategory, petCategory) ||
-                other.petCategory == petCategory) &&
             const DeepCollectionEquality().equals(other.imageUrls, imageUrls) &&
             (identical(other.stockQuantity, stockQuantity) ||
-                other.stockQuantity == stockQuantity));
+                other.stockQuantity == stockQuantity) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.isFavorite, isFavorite) ||
+                other.isFavorite == isFavorite));
   }
 
   @override
@@ -58,16 +58,16 @@ mixin _$Product {
       id,
       article,
       title,
-      description,
       price,
       category,
-      petCategory,
       const DeepCollectionEquality().hash(imageUrls),
-      stockQuantity);
+      stockQuantity,
+      description,
+      isFavorite);
 
   @override
   String toString() {
-    return 'Product(id: $id, article: $article, title: $title, description: $description, price: $price, category: $category, petCategory: $petCategory, imageUrls: $imageUrls, stockQuantity: $stockQuantity)';
+    return 'Product(id: $id, article: $article, title: $title, price: $price, category: $category, imageUrls: $imageUrls, stockQuantity: $stockQuantity, description: $description, isFavorite: $isFavorite)';
   }
 }
 
@@ -77,15 +77,15 @@ abstract mixin class $ProductCopyWith<$Res> {
       _$ProductCopyWithImpl;
   @useResult
   $Res call(
-      {String? id,
-      int? article,
-      String? title,
-      String? description,
-      double? price,
-      int? category,
-      int? petCategory,
-      List<String>? imageUrls,
-      int? stockQuantity});
+      {String id,
+      int article,
+      String title,
+      double price,
+      String category,
+      List<String> imageUrls,
+      int stockQuantity,
+      String description,
+      bool isFavorite});
 }
 
 /// @nodoc
@@ -100,53 +100,53 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? article = freezed,
-    Object? title = freezed,
-    Object? description = freezed,
-    Object? price = freezed,
-    Object? category = freezed,
-    Object? petCategory = freezed,
-    Object? imageUrls = freezed,
-    Object? stockQuantity = freezed,
+    Object? id = null,
+    Object? article = null,
+    Object? title = null,
+    Object? price = null,
+    Object? category = null,
+    Object? imageUrls = null,
+    Object? stockQuantity = null,
+    Object? description = null,
+    Object? isFavorite = null,
   }) {
     return _then(_self.copyWith(
-      id: freezed == id
+      id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      article: freezed == article
+              as String,
+      article: null == article
           ? _self.article
           : article // ignore: cast_nullable_to_non_nullable
-              as int?,
-      title: freezed == title
+              as int,
+      title: null == title
           ? _self.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      description: freezed == description
-          ? _self.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      price: freezed == price
+              as String,
+      price: null == price
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double?,
-      category: freezed == category
+              as double,
+      category: null == category
           ? _self.category
           : category // ignore: cast_nullable_to_non_nullable
-              as int?,
-      petCategory: freezed == petCategory
-          ? _self.petCategory
-          : petCategory // ignore: cast_nullable_to_non_nullable
-              as int?,
-      imageUrls: freezed == imageUrls
+              as String,
+      imageUrls: null == imageUrls
           ? _self.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      stockQuantity: freezed == stockQuantity
+              as List<String>,
+      stockQuantity: null == stockQuantity
           ? _self.stockQuantity
           : stockQuantity // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      isFavorite: null == isFavorite
+          ? _self.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -155,43 +155,43 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
 
 class _Product implements Product {
   const _Product(
-      {this.id,
-      this.article,
-      this.title,
-      this.description,
-      this.price,
-      this.category,
-      this.petCategory,
-      final List<String>? imageUrls,
-      this.stockQuantity})
+      {required this.id,
+      required this.article,
+      required this.title,
+      required this.price,
+      required this.category,
+      required final List<String> imageUrls,
+      required this.stockQuantity,
+      this.description = '',
+      this.isFavorite = false})
       : _imageUrls = imageUrls;
 
   @override
-  final String? id;
+  final String id;
   @override
-  final int? article;
+  final int article;
   @override
-  final String? title;
+  final String title;
   @override
-  final String? description;
+  final double price;
   @override
-  final double? price;
+  final String category;
+  final List<String> _imageUrls;
   @override
-  final int? category;
-  @override
-  final int? petCategory;
-  final List<String>? _imageUrls;
-  @override
-  List<String>? get imageUrls {
-    final value = _imageUrls;
-    if (value == null) return null;
+  List<String> get imageUrls {
     if (_imageUrls is EqualUnmodifiableListView) return _imageUrls;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_imageUrls);
   }
 
   @override
-  final int? stockQuantity;
+  final int stockQuantity;
+  @override
+  @JsonKey()
+  final String description;
+  @override
+  @JsonKey()
+  final bool isFavorite;
 
   /// Create a copy of Product
   /// with the given fields replaced by the non-null parameter values.
@@ -209,17 +209,17 @@ class _Product implements Product {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.article, article) || other.article == article) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.petCategory, petCategory) ||
-                other.petCategory == petCategory) &&
             const DeepCollectionEquality()
                 .equals(other._imageUrls, _imageUrls) &&
             (identical(other.stockQuantity, stockQuantity) ||
-                other.stockQuantity == stockQuantity));
+                other.stockQuantity == stockQuantity) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.isFavorite, isFavorite) ||
+                other.isFavorite == isFavorite));
   }
 
   @override
@@ -228,16 +228,16 @@ class _Product implements Product {
       id,
       article,
       title,
-      description,
       price,
       category,
-      petCategory,
       const DeepCollectionEquality().hash(_imageUrls),
-      stockQuantity);
+      stockQuantity,
+      description,
+      isFavorite);
 
   @override
   String toString() {
-    return 'Product(id: $id, article: $article, title: $title, description: $description, price: $price, category: $category, petCategory: $petCategory, imageUrls: $imageUrls, stockQuantity: $stockQuantity)';
+    return 'Product(id: $id, article: $article, title: $title, price: $price, category: $category, imageUrls: $imageUrls, stockQuantity: $stockQuantity, description: $description, isFavorite: $isFavorite)';
   }
 }
 
@@ -248,15 +248,15 @@ abstract mixin class _$ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? id,
-      int? article,
-      String? title,
-      String? description,
-      double? price,
-      int? category,
-      int? petCategory,
-      List<String>? imageUrls,
-      int? stockQuantity});
+      {String id,
+      int article,
+      String title,
+      double price,
+      String category,
+      List<String> imageUrls,
+      int stockQuantity,
+      String description,
+      bool isFavorite});
 }
 
 /// @nodoc
@@ -271,53 +271,53 @@ class __$ProductCopyWithImpl<$Res> implements _$ProductCopyWith<$Res> {
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? id = freezed,
-    Object? article = freezed,
-    Object? title = freezed,
-    Object? description = freezed,
-    Object? price = freezed,
-    Object? category = freezed,
-    Object? petCategory = freezed,
-    Object? imageUrls = freezed,
-    Object? stockQuantity = freezed,
+    Object? id = null,
+    Object? article = null,
+    Object? title = null,
+    Object? price = null,
+    Object? category = null,
+    Object? imageUrls = null,
+    Object? stockQuantity = null,
+    Object? description = null,
+    Object? isFavorite = null,
   }) {
     return _then(_Product(
-      id: freezed == id
+      id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      article: freezed == article
+              as String,
+      article: null == article
           ? _self.article
           : article // ignore: cast_nullable_to_non_nullable
-              as int?,
-      title: freezed == title
+              as int,
+      title: null == title
           ? _self.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      description: freezed == description
-          ? _self.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      price: freezed == price
+              as String,
+      price: null == price
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double?,
-      category: freezed == category
+              as double,
+      category: null == category
           ? _self.category
           : category // ignore: cast_nullable_to_non_nullable
-              as int?,
-      petCategory: freezed == petCategory
-          ? _self.petCategory
-          : petCategory // ignore: cast_nullable_to_non_nullable
-              as int?,
-      imageUrls: freezed == imageUrls
+              as String,
+      imageUrls: null == imageUrls
           ? _self._imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      stockQuantity: freezed == stockQuantity
+              as List<String>,
+      stockQuantity: null == stockQuantity
           ? _self.stockQuantity
           : stockQuantity // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      isFavorite: null == isFavorite
+          ? _self.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }

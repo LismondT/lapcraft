@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lapcraft/core/core.dart';
 import 'package:lapcraft/dependencies_injection.dart';
+import 'package:lapcraft/features/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:lapcraft/features/products/presentation/cubits/category_cubit.dart';
 import 'package:lapcraft/features/products/presentation/cubits/products_cubit.dart';
 
@@ -22,10 +23,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => sl<CartCubit>()..loadCart()),
-        BlocProvider(create: (context) => sl<ProductsCubit>()),
         BlocProvider(
             create: (context) => sl<CategoryCubit>()..loadCategories()),
+        BlocProvider(create: (context) => sl<CartCubit>()..loadCart()),
+        BlocProvider(
+            create: (context) => sl<FavoritesCubit>()..loadFavorites()),
+        BlocProvider(create: (context) => sl<ProductsCubit>()),
       ],
       child: MaterialApp.router(
           title: 'Lapcraft',

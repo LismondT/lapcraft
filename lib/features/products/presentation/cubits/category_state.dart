@@ -5,9 +5,9 @@ part 'category_state.freezed.dart';
 
 @freezed
 sealed class CategoryState with _$CategoryState {
-  const factory CategoryState.initial() = Initial;
+  const factory CategoryState.initial() = CategoryInitial;
 
-  const factory CategoryState.loading() = Loading;
+  const factory CategoryState.loading() = CategoryLoading;
 
   const factory CategoryState.categoriesLoaded(List<Category> categories) =
       CategoriesLoaded;
@@ -18,5 +18,5 @@ sealed class CategoryState with _$CategoryState {
   const factory CategoryState.subcategoriesLoaded(
       List<Category> categories, String parentId) = SubcategoriesLoaded;
 
-  const factory CategoryState.error(String message) = Error;
+  const factory CategoryState.error(String message) = CategoryError;
 }

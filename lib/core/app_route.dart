@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lapcraft/core/widgets/scaffold_with_bottom_navbar.dart';
+import 'package:lapcraft/features/favorites/presentation/pages/favorites_page.dart';
 import 'package:lapcraft/features/products/presentation/cubits/category_cubit.dart';
 import 'package:lapcraft/features/products/presentation/pages/categories_page.dart';
 import 'package:lapcraft/features/products/presentation/pages/products_page.dart';
@@ -54,13 +55,11 @@ class AppRouter {
                   builder: (context, state) => const CategoriesPage()),
               GoRoute(
                 path: Routes.favorites.path,
-                pageBuilder: (context, state) => NoTransitionPage(
-                    key: state.pageKey,
-                    child: const Center(child: Text('Страница избранного'))),
+                builder: (context, state) => const FavoritesPage(),
               ),
               GoRoute(
                 path: Routes.cart.path,
-                builder: (_, __) => const CartPage(),
+                builder: (context, state) => const CartPage(),
               ),
               GoRoute(
                 path: Routes.profile.path,

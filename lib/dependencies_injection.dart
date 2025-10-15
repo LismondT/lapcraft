@@ -7,6 +7,15 @@ import 'package:lapcraft/features/cart/domain/repositories/cart_repository.dart'
 import 'package:lapcraft/features/cart/domain/usecases/clear_cart.dart';
 import 'package:lapcraft/features/cart/domain/usecases/get_cart_items.dart';
 import 'package:lapcraft/features/cart/domain/usecases/update_cart_item_quantity.dart';
+import 'package:lapcraft/features/favorites/data/datasources/remote/favorites_mock_datasource.dart';
+import 'package:lapcraft/features/favorites/data/datasources/remote/favorites_remote_datasource.dart';
+import 'package:lapcraft/features/favorites/data/repositories/favorites_repository_impl.dart';
+import 'package:lapcraft/features/favorites/domain/repositories/favorites_repository.dart';
+import 'package:lapcraft/features/favorites/domain/usecases/add_to_favorites.dart';
+import 'package:lapcraft/features/favorites/domain/usecases/get_favorites.dart';
+import 'package:lapcraft/features/favorites/domain/usecases/is_favorite.dart';
+import 'package:lapcraft/features/favorites/domain/usecases/remove_from_favorites.dart';
+import 'package:lapcraft/features/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:lapcraft/features/features.dart';
 import 'package:lapcraft/features/products/data/datasources/category_debug_datasource.dart';
 import 'package:lapcraft/features/products/data/datasources/category_remote_datasource.dart';
@@ -37,6 +46,8 @@ void _dataSources() {
   sl.registerLazySingleton<ProductsDatasource>(
       () => ProductsDebugDatasourceImpl(20));
   sl.registerLazySingleton<CartDatasource>(() => CartDebugDatasourceImpl(sl()));
+  sl.registerLazySingleton<FavoritesRemoteDatasource>(
+      () => FavoritesMockDatasource(productsDatasource: sl()));
 }
 
 void _repositories() {
@@ -45,6 +56,8 @@ void _repositories() {
   sl.registerLazySingleton<ProductsRepository>(
       () => ProductsRepositoryImpl(sl()));
   sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
+  sl.registerLazySingleton<FavoritesRepository>(
+      () => FavoritesRepositoryImpl(remoteDatasource: sl()));
 }
 
 void _useCases() {
@@ -61,6 +74,12 @@ void _useCases() {
   sl.registerLazySingleton(() => RemoveCartItem(sl()));
   sl.registerLazySingleton(() => UpdateCartItemQuantity(sl()));
   sl.registerLazySingleton(() => ClearCart(sl()));
+
+  // Favorites
+  sl.registerLazySingleton(() => GetFavorites(sl()));
+  sl.registerLazySingleton(() => AddToFavorites(sl()));
+  sl.registerLazySingleton(() => RemoveFromFavorites(sl()));
+  sl.registerLazySingleton(() => IsFavorite(sl()));
 }
 
 void _cubits() {
@@ -68,4 +87,9 @@ void _cubits() {
       getCategories: sl(), getCategoryTree: sl(), getSubcategories: sl()));
   sl.registerFactory(() => ProductsCubit(sl()));
   sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => FavoritesCubit(
+      getFavorites: sl(),
+      addToFavorites: sl(),
+      removeFromFavorites: sl(),
+      isFavorite: sl()));
 }

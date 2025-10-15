@@ -5,7 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lapcraft/features/features.dart';
 
 import '../../../cart/presentation/cubits/cart_cubit.dart';
-import '../pages/products_detail_page.dart';
+import '../pages/product_page.dart';
 
 class ProductCard extends StatelessWidget {
   final Product _product;
@@ -508,7 +508,7 @@ class ProductCard extends StatelessWidget {
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
-            ProductDetailPage(_product),
+            ProductPage(_product),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
