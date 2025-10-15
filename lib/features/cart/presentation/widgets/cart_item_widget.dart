@@ -1,7 +1,9 @@
 // cart_item_widget.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lapcraft/core/app_route.dart';
 import '../../domain/entities/cart_item.dart';
 import '../cubits/cart_cubit.dart';
 
@@ -35,7 +37,7 @@ class CartItemWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(20),
           onTap: () {
-            // Навигация к деталям товара
+            context.push(Routes.product.withParameter(item.productId));
           },
           child: Padding(
             padding: const EdgeInsets.all(16),

@@ -116,4 +116,6 @@ class CategoryCubit extends Cubit<CategoryState> {
     _lastParentId = null;
     _lastSubcategories = null;
   }
+
+
 }

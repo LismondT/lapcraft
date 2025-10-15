@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lapcraft/core/core.dart';
 import 'package:lapcraft/features/features.dart';
 
 import '../../../cart/presentation/cubits/cart_cubit.dart';
@@ -43,7 +45,9 @@ class ProductCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: onTap ?? () => _navigateToDetail(context),
+          onTap: onTap ?? () {
+            context.push(Routes.product.withParameter(_product.id));
+          },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
@@ -89,7 +93,9 @@ class ProductCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(20),
-          onTap: onTap ?? () => _navigateToDetail(context),
+          onTap: onTap ?? () {
+            context.push(Routes.product.withParameter(_product.id));
+          },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -500,26 +506,6 @@ class ProductCard extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _navigateToDetail(BuildContext context) {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            ProductPage(_product),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(0.0, 1.0);
-          const end = Offset.zero;
-          const curve = Curves.easeInOut;
-          var tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          return SlideTransition(
-            position: animation.drive(tween),
-            child: child,
-          );
-        },
       ),
     );
   }

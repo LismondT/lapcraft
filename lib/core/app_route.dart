@@ -4,10 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:lapcraft/core/widgets/scaffold_with_bottom_navbar.dart';
 import 'package:lapcraft/features/favorites/presentation/pages/favorites_page.dart';
 import 'package:lapcraft/features/products/presentation/cubits/category_cubit.dart';
+import 'package:lapcraft/features/products/presentation/cubits/product_cubit.dart';
 import 'package:lapcraft/features/products/presentation/pages/categories_page.dart';
+import 'package:lapcraft/features/products/presentation/pages/product_page.dart';
 import 'package:lapcraft/features/products/presentation/pages/products_page.dart';
 import 'package:lapcraft/features/products/presentation/pages/subcategories_page.dart';
 
+import '../dependencies_injection.dart';
 import '../features/cart/presentation/pages/cart_page.dart';
 
 enum Routes {
@@ -15,6 +18,7 @@ enum Routes {
   categories("/categories"),
   subcategories("/subcategories"),
   products("/products"),
+  product("/product"),
   favorites("/favorites"),
   cart("/cart"),
   profile("/profile");
@@ -75,6 +79,15 @@ class AppRouter {
                       value: context.read<CategoryCubit>()
                         ..loadSubcategories(parentId),
                       child: SubcategoriesPage(parentId: parentId),
+                    );
+                  }),
+              GoRoute(
+                  path: Routes.product.withParameter(':productId'),
+                  builder: (context, state) {
+                    final productId = state.pathParameters['productId']!;
+                    return BlocProvider(
+                      create: (context) => sl<ProductCubit>(),
+                      child: ProductPage(productId: productId),
                     );
                   }),
               GoRoute(

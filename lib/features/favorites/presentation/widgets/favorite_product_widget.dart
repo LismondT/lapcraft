@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lapcraft/features/cart/presentation/cubits/cart_cubit.dart';
 import 'package:lapcraft/features/products/domain/entities/product.dart';
 
 class FavoriteProductWidget extends StatelessWidget {
@@ -49,7 +51,7 @@ class FavoriteProductWidget extends StatelessWidget {
                       children: [
                         // Category
                         Text(
-                          product.category,
+                          product.categoryName,
                           style: TextStyle(
                             fontSize: 10,
                             color: Colors.grey[500],
@@ -200,7 +202,29 @@ class FavoriteProductWidget extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            // Добавление в корзину
+            context.read<CartCubit>().addToCart(product.id);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: [
+                    Icon(Iconsax.tick_circle, size: 20, color: Colors.white),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        '${product.title} добавлен в корзину',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                duration: const Duration(seconds: 2),
+              ),
+            );
           },
           borderRadius: BorderRadius.circular(16),
           child: const Icon(

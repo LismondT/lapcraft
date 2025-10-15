@@ -44,7 +44,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
     final state = cubit.state;
 
     // Загружаем данные только если их нет
-    if (state is Initial || state is Error) {
+    if (state is CategoryInitial || state is Error) {
       cubit.loadCategories();
     } else if (state is SubcategoriesLoaded) {
       // Если пришли с подкатегорий, возвращаем к основным
@@ -165,13 +165,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
   Widget _buildContent(CategoryState state, BuildContext context) {
     return switch (state) {
-      Initial() => _buildLoadingState(),
-      Loading() => _buildLoadingState(),
+      CategoryInitial() => _buildLoadingState(),
+      CategoryLoading() => _buildLoadingState(),
       CategoriesLoaded(:final categories) => _buildGridState(categories),
       CategoryTreeLoaded(:final categories) => _buildTreeState(categories),
       SubcategoriesLoaded(:final categories, :final parentId) =>
           _buildTreeState(categories),
-      Error(:final message) => _buildErrorState(message, context),
+      CategoryError(:final message) => _buildErrorState(message, context),
     };
   }
 

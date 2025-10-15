@@ -337,8 +337,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   }
 
   void _navigateToProductDetails(BuildContext context, Product product) {
-    // Навигация к деталям товара
-    // context.go('${Routes.productDetails.path}/${product.id}');
+    context.push(Routes.product.withParameter(product.id));
   }
 
   void _showClearFavoritesDialog(BuildContext context) {

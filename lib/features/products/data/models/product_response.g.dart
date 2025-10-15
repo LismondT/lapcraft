@@ -13,7 +13,8 @@ _ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String?,
       description: json['description'] as String?,
       price: (json['price'] as num?)?.toDouble(),
-      category: json['category'] as String?,
+      categoryId: json['categoryId'] as String?,
+      categoryName: json['categoryName'] as String?,
       imageUrls: (json['imageUrls'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -28,7 +29,8 @@ Map<String, dynamic> _$ProductResponseToJson(_ProductResponse instance) =>
       'title': instance.title,
       'description': instance.description,
       'price': instance.price,
-      'category': instance.category,
+      'categoryId': instance.categoryId,
+      'categoryName': instance.categoryName,
       'imageUrls': instance.imageUrls,
       'stockQuantity': instance.stockQuantity,
       'isFavorite': instance.isFavorite,

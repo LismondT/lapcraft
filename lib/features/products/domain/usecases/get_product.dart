@@ -1,14 +1,13 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:lapcraft/core/core.dart';
 import 'package:lapcraft/features/products/products.dart';
 
-class GetProduct extends UseCase<Product, String> {
-  final ProductsRepository _repo;
+class GetProduct {
+  final ProductsRepository repository;
 
-  GetProduct(this._repo);
+  GetProduct({required this.repository});
 
-  @override
-  Future<Either<Failure, Product>> call(String params) =>
-      _repo.product(params);
+  Future<Either<Failure, Product>> call(String id) async {
+    return await repository.product(id);
+  }
 }

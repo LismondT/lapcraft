@@ -19,7 +19,8 @@ mixin _$Product {
   int get article;
   String get title;
   double get price;
-  String get category;
+  String get categoryId;
+  String get categoryName;
   List<String> get imageUrls;
   int get stockQuantity;
   String get description;
@@ -41,8 +42,10 @@ mixin _$Product {
             (identical(other.article, article) || other.article == article) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.category, category) ||
-                other.category == category) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId) &&
+            (identical(other.categoryName, categoryName) ||
+                other.categoryName == categoryName) &&
             const DeepCollectionEquality().equals(other.imageUrls, imageUrls) &&
             (identical(other.stockQuantity, stockQuantity) ||
                 other.stockQuantity == stockQuantity) &&
@@ -59,7 +62,8 @@ mixin _$Product {
       article,
       title,
       price,
-      category,
+      categoryId,
+      categoryName,
       const DeepCollectionEquality().hash(imageUrls),
       stockQuantity,
       description,
@@ -67,7 +71,7 @@ mixin _$Product {
 
   @override
   String toString() {
-    return 'Product(id: $id, article: $article, title: $title, price: $price, category: $category, imageUrls: $imageUrls, stockQuantity: $stockQuantity, description: $description, isFavorite: $isFavorite)';
+    return 'Product(id: $id, article: $article, title: $title, price: $price, categoryId: $categoryId, categoryName: $categoryName, imageUrls: $imageUrls, stockQuantity: $stockQuantity, description: $description, isFavorite: $isFavorite)';
   }
 }
 
@@ -81,7 +85,8 @@ abstract mixin class $ProductCopyWith<$Res> {
       int article,
       String title,
       double price,
-      String category,
+      String categoryId,
+      String categoryName,
       List<String> imageUrls,
       int stockQuantity,
       String description,
@@ -104,7 +109,8 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
     Object? article = null,
     Object? title = null,
     Object? price = null,
-    Object? category = null,
+    Object? categoryId = null,
+    Object? categoryName = null,
     Object? imageUrls = null,
     Object? stockQuantity = null,
     Object? description = null,
@@ -127,9 +133,13 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      category: null == category
-          ? _self.category
-          : category // ignore: cast_nullable_to_non_nullable
+      categoryId: null == categoryId
+          ? _self.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as String,
+      categoryName: null == categoryName
+          ? _self.categoryName
+          : categoryName // ignore: cast_nullable_to_non_nullable
               as String,
       imageUrls: null == imageUrls
           ? _self.imageUrls
@@ -159,7 +169,8 @@ class _Product implements Product {
       required this.article,
       required this.title,
       required this.price,
-      required this.category,
+      required this.categoryId,
+      required this.categoryName,
       required final List<String> imageUrls,
       required this.stockQuantity,
       this.description = '',
@@ -175,7 +186,9 @@ class _Product implements Product {
   @override
   final double price;
   @override
-  final String category;
+  final String categoryId;
+  @override
+  final String categoryName;
   final List<String> _imageUrls;
   @override
   List<String> get imageUrls {
@@ -210,8 +223,10 @@ class _Product implements Product {
             (identical(other.article, article) || other.article == article) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.category, category) ||
-                other.category == category) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId) &&
+            (identical(other.categoryName, categoryName) ||
+                other.categoryName == categoryName) &&
             const DeepCollectionEquality()
                 .equals(other._imageUrls, _imageUrls) &&
             (identical(other.stockQuantity, stockQuantity) ||
@@ -229,7 +244,8 @@ class _Product implements Product {
       article,
       title,
       price,
-      category,
+      categoryId,
+      categoryName,
       const DeepCollectionEquality().hash(_imageUrls),
       stockQuantity,
       description,
@@ -237,7 +253,7 @@ class _Product implements Product {
 
   @override
   String toString() {
-    return 'Product(id: $id, article: $article, title: $title, price: $price, category: $category, imageUrls: $imageUrls, stockQuantity: $stockQuantity, description: $description, isFavorite: $isFavorite)';
+    return 'Product(id: $id, article: $article, title: $title, price: $price, categoryId: $categoryId, categoryName: $categoryName, imageUrls: $imageUrls, stockQuantity: $stockQuantity, description: $description, isFavorite: $isFavorite)';
   }
 }
 
@@ -252,7 +268,8 @@ abstract mixin class _$ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
       int article,
       String title,
       double price,
-      String category,
+      String categoryId,
+      String categoryName,
       List<String> imageUrls,
       int stockQuantity,
       String description,
@@ -275,7 +292,8 @@ class __$ProductCopyWithImpl<$Res> implements _$ProductCopyWith<$Res> {
     Object? article = null,
     Object? title = null,
     Object? price = null,
-    Object? category = null,
+    Object? categoryId = null,
+    Object? categoryName = null,
     Object? imageUrls = null,
     Object? stockQuantity = null,
     Object? description = null,
@@ -298,9 +316,13 @@ class __$ProductCopyWithImpl<$Res> implements _$ProductCopyWith<$Res> {
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      category: null == category
-          ? _self.category
-          : category // ignore: cast_nullable_to_non_nullable
+      categoryId: null == categoryId
+          ? _self.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as String,
+      categoryName: null == categoryName
+          ? _self.categoryName
+          : categoryName // ignore: cast_nullable_to_non_nullable
               as String,
       imageUrls: null == imageUrls
           ? _self._imageUrls

@@ -28,7 +28,8 @@ _ProductData _$ProductDataFromJson(Map<String, dynamic> json) => _ProductData(
       title: json['title'] as String?,
       description: json['description'] as String?,
       price: (json['price'] as num?)?.toDouble(),
-      category: json['category'] as String?,
+      categoryId: json['categoryId'] as String?,
+      categoryName: json['categoryName'] as String?,
       imageUrls: (json['imageUrls'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -43,7 +44,8 @@ Map<String, dynamic> _$ProductDataToJson(_ProductData instance) =>
       'title': instance.title,
       'description': instance.description,
       'price': instance.price,
-      'category': instance.category,
+      'categoryId': instance.categoryId,
+      'categoryName': instance.categoryName,
       'imageUrls': instance.imageUrls,
       'stockQuantity': instance.stockQuantity,
       'isFavorite': instance.isFavorite,

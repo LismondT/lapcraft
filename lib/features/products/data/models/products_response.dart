@@ -23,7 +23,8 @@ sealed class ProductData with _$ProductData {
       String? title,
       String? description,
       double? price,
-      String? category,
+      String? categoryId,
+      String? categoryName,
       List<String>? imageUrls,
       int? stockQuantity,
       bool? isFavorite}) = _ProductData;
@@ -41,7 +42,8 @@ extension ProductsResponseToEntity on ProductsResponse {
               title: data.title ?? 'Без названия',
               description: data.description ?? '',
               price: data.price ?? 0,
-              category: data.category ?? '',
+              categoryId: data.categoryId ?? '',
+              categoryName: data.categoryName ?? 'Без категории',
               imageUrls: data.imageUrls ?? [],
               stockQuantity: data.stockQuantity ?? 0,
               isFavorite: data.isFavorite ?? false))

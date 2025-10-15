@@ -20,7 +20,8 @@ mixin _$ProductResponse {
   String? get title;
   String? get description;
   double? get price;
-  String? get category;
+  String? get categoryId;
+  String? get categoryName;
   List<String>? get imageUrls;
   int? get stockQuantity;
   bool? get isFavorite;
@@ -47,8 +48,10 @@ mixin _$ProductResponse {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.category, category) ||
-                other.category == category) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId) &&
+            (identical(other.categoryName, categoryName) ||
+                other.categoryName == categoryName) &&
             const DeepCollectionEquality().equals(other.imageUrls, imageUrls) &&
             (identical(other.stockQuantity, stockQuantity) ||
                 other.stockQuantity == stockQuantity) &&
@@ -65,14 +68,15 @@ mixin _$ProductResponse {
       title,
       description,
       price,
-      category,
+      categoryId,
+      categoryName,
       const DeepCollectionEquality().hash(imageUrls),
       stockQuantity,
       isFavorite);
 
   @override
   String toString() {
-    return 'ProductResponse(id: $id, article: $article, title: $title, description: $description, price: $price, category: $category, imageUrls: $imageUrls, stockQuantity: $stockQuantity, isFavorite: $isFavorite)';
+    return 'ProductResponse(id: $id, article: $article, title: $title, description: $description, price: $price, categoryId: $categoryId, categoryName: $categoryName, imageUrls: $imageUrls, stockQuantity: $stockQuantity, isFavorite: $isFavorite)';
   }
 }
 
@@ -88,7 +92,8 @@ abstract mixin class $ProductResponseCopyWith<$Res> {
       String? title,
       String? description,
       double? price,
-      String? category,
+      String? categoryId,
+      String? categoryName,
       List<String>? imageUrls,
       int? stockQuantity,
       bool? isFavorite});
@@ -112,7 +117,8 @@ class _$ProductResponseCopyWithImpl<$Res>
     Object? title = freezed,
     Object? description = freezed,
     Object? price = freezed,
-    Object? category = freezed,
+    Object? categoryId = freezed,
+    Object? categoryName = freezed,
     Object? imageUrls = freezed,
     Object? stockQuantity = freezed,
     Object? isFavorite = freezed,
@@ -138,9 +144,13 @@ class _$ProductResponseCopyWithImpl<$Res>
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
               as double?,
-      category: freezed == category
-          ? _self.category
-          : category // ignore: cast_nullable_to_non_nullable
+      categoryId: freezed == categoryId
+          ? _self.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      categoryName: freezed == categoryName
+          ? _self.categoryName
+          : categoryName // ignore: cast_nullable_to_non_nullable
               as String?,
       imageUrls: freezed == imageUrls
           ? _self.imageUrls
@@ -167,7 +177,8 @@ class _ProductResponse implements ProductResponse {
       this.title,
       this.description,
       this.price,
-      this.category,
+      this.categoryId,
+      this.categoryName,
       final List<String>? imageUrls,
       this.stockQuantity,
       this.isFavorite})
@@ -186,7 +197,9 @@ class _ProductResponse implements ProductResponse {
   @override
   final double? price;
   @override
-  final String? category;
+  final String? categoryId;
+  @override
+  final String? categoryName;
   final List<String>? _imageUrls;
   @override
   List<String>? get imageUrls {
@@ -228,8 +241,10 @@ class _ProductResponse implements ProductResponse {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.category, category) ||
-                other.category == category) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId) &&
+            (identical(other.categoryName, categoryName) ||
+                other.categoryName == categoryName) &&
             const DeepCollectionEquality()
                 .equals(other._imageUrls, _imageUrls) &&
             (identical(other.stockQuantity, stockQuantity) ||
@@ -247,14 +262,15 @@ class _ProductResponse implements ProductResponse {
       title,
       description,
       price,
-      category,
+      categoryId,
+      categoryName,
       const DeepCollectionEquality().hash(_imageUrls),
       stockQuantity,
       isFavorite);
 
   @override
   String toString() {
-    return 'ProductResponse(id: $id, article: $article, title: $title, description: $description, price: $price, category: $category, imageUrls: $imageUrls, stockQuantity: $stockQuantity, isFavorite: $isFavorite)';
+    return 'ProductResponse(id: $id, article: $article, title: $title, description: $description, price: $price, categoryId: $categoryId, categoryName: $categoryName, imageUrls: $imageUrls, stockQuantity: $stockQuantity, isFavorite: $isFavorite)';
   }
 }
 
@@ -272,7 +288,8 @@ abstract mixin class _$ProductResponseCopyWith<$Res>
       String? title,
       String? description,
       double? price,
-      String? category,
+      String? categoryId,
+      String? categoryName,
       List<String>? imageUrls,
       int? stockQuantity,
       bool? isFavorite});
@@ -296,7 +313,8 @@ class __$ProductResponseCopyWithImpl<$Res>
     Object? title = freezed,
     Object? description = freezed,
     Object? price = freezed,
-    Object? category = freezed,
+    Object? categoryId = freezed,
+    Object? categoryName = freezed,
     Object? imageUrls = freezed,
     Object? stockQuantity = freezed,
     Object? isFavorite = freezed,
@@ -322,9 +340,13 @@ class __$ProductResponseCopyWithImpl<$Res>
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
               as double?,
-      category: freezed == category
-          ? _self.category
-          : category // ignore: cast_nullable_to_non_nullable
+      categoryId: freezed == categoryId
+          ? _self.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      categoryName: freezed == categoryName
+          ? _self.categoryName
+          : categoryName // ignore: cast_nullable_to_non_nullable
               as String?,
       imageUrls: freezed == imageUrls
           ? _self._imageUrls

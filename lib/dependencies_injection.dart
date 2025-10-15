@@ -24,6 +24,7 @@ import 'package:lapcraft/features/products/domain/usecases/get_categories.dart';
 import 'package:lapcraft/features/products/domain/usecases/get_category_tree.dart';
 import 'package:lapcraft/features/products/domain/usecases/get_subcategories.dart';
 import 'package:lapcraft/features/products/presentation/cubits/category_cubit.dart';
+import 'package:lapcraft/features/products/presentation/cubits/product_cubit.dart';
 
 import 'features/cart/domain/usecases/add_cart_item.dart';
 import 'features/cart/domain/usecases/remove_cart_item.dart';
@@ -65,7 +66,7 @@ void _useCases() {
   sl.registerLazySingleton(() => GetCategories(sl()));
   sl.registerLazySingleton(() => GetCategoryTree(sl()));
   sl.registerLazySingleton(() => GetSubcategories(sl()));
-  sl.registerLazySingleton(() => GetProduct(sl()));
+  sl.registerLazySingleton(() => GetProduct(repository: sl()));
   sl.registerLazySingleton(() => GetProducts(sl()));
 
   // Cart
@@ -86,6 +87,7 @@ void _cubits() {
   sl.registerFactory(() => CategoryCubit(
       getCategories: sl(), getCategoryTree: sl(), getSubcategories: sl()));
   sl.registerFactory(() => ProductsCubit(sl()));
+  sl.registerFactory(() => ProductCubit(getProduct: sl()));
   sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(), sl()));
   sl.registerFactory(() => FavoritesCubit(
       getFavorites: sl(),

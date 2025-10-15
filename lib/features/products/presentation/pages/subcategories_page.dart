@@ -207,12 +207,12 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
 
   Widget _buildContent(CategoryState state, BuildContext context) {
     return switch (state) {
-      Initial() => _buildLoadingState(),
-      Loading() => _buildLoadingState(),
+      CategoryInitial() => _buildLoadingState(),
+      CategoryLoading() => _buildLoadingState(),
       SubcategoriesLoaded(:final categories, :final parentId)
           when parentId == widget.parentId =>
         _buildSubcategoriesGrid(categories),
-      Error(:final message) => _buildErrorState(message),
+      CategoryError(:final message) => _buildErrorState(message),
       _ => _buildEmptyState(),
     };
   }
