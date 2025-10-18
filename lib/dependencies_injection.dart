@@ -25,11 +25,21 @@ import 'package:lapcraft/features/products/domain/usecases/get_category_tree.dar
 import 'package:lapcraft/features/products/domain/usecases/get_subcategories.dart';
 import 'package:lapcraft/features/products/presentation/cubits/category_cubit.dart';
 import 'package:lapcraft/features/products/presentation/cubits/product_cubit.dart';
+import 'package:lapcraft/features/profile/data/datasource/remote/auth_mock_datasource.dart';
+import 'package:lapcraft/features/profile/data/datasource/remote/auth_remote_datasource.dart';
+import 'package:lapcraft/features/profile/data/repositories/auth_repository_impl.dart';
+import 'package:lapcraft/features/profile/domain/repositories/auth_repository.dart';
+import 'package:lapcraft/features/profile/domain/usecases/check_auth.dart';
+import 'package:lapcraft/features/profile/domain/usecases/get_current_user.dart';
+import 'package:lapcraft/features/profile/domain/usecases/login.dart';
+import 'package:lapcraft/features/profile/domain/usecases/logout.dart';
+import 'package:lapcraft/features/profile/presentation/cubits/auth_cubit.dart';
 
 import 'features/cart/domain/usecases/add_cart_item.dart';
 import 'features/cart/domain/usecases/remove_cart_item.dart';
 import 'features/cart/presentation/cubits/cart_cubit.dart';
 import 'features/products/presentation/cubits/products_cubit.dart';
+import 'features/profile/domain/usecases/register.dart';
 
 GetIt sl = GetIt.instance;
 
@@ -49,6 +59,7 @@ void _dataSources() {
   sl.registerLazySingleton<CartDatasource>(() => CartDebugDatasourceImpl(sl()));
   sl.registerLazySingleton<FavoritesRemoteDatasource>(
       () => FavoritesMockDatasource(productsDatasource: sl()));
+  sl.registerLazySingleton<AuthRemoteDatasource>(() => AuthMockDatasource());
 }
 
 void _repositories() {
@@ -59,6 +70,8 @@ void _repositories() {
   sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
   sl.registerLazySingleton<FavoritesRepository>(
       () => FavoritesRepositoryImpl(remoteDatasource: sl()));
+  sl.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(dataSource: sl()));
 }
 
 void _useCases() {
@@ -81,17 +94,37 @@ void _useCases() {
   sl.registerLazySingleton(() => AddToFavorites(sl()));
   sl.registerLazySingleton(() => RemoveFromFavorites(sl()));
   sl.registerLazySingleton(() => IsFavorite(sl()));
+
+  // Auth
+  sl.registerLazySingleton(() => CheckAuth(sl()));
+  sl.registerLazySingleton(() => GetCurrentUser(sl()));
+  sl.registerLazySingleton(() => Login(sl()));
+  sl.registerLazySingleton(() => Register(sl()));
+  sl.registerLazySingleton(() => Logout(sl()));
 }
 
 void _cubits() {
+  // Products
   sl.registerFactory(() => CategoryCubit(
       getCategories: sl(), getCategoryTree: sl(), getSubcategories: sl()));
   sl.registerFactory(() => ProductsCubit(sl()));
   sl.registerFactory(() => ProductCubit(getProduct: sl()));
-  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(), sl()));
+
+  //Favorites
   sl.registerFactory(() => FavoritesCubit(
       getFavorites: sl(),
       addToFavorites: sl(),
       removeFromFavorites: sl(),
       isFavorite: sl()));
+
+  // Cart
+  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(), sl()));
+
+  // Profile
+  sl.registerFactory(() => AuthCubit(
+      loginUseCase: sl(),
+      registerUseCase: sl(),
+      getCurrentUserUseCase: sl(),
+      checkAuthUseCase: sl(),
+      logoutUseCase: sl()));
 }

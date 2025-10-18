@@ -63,7 +63,7 @@ class ProductsCubit extends Cubit<ProductsState> {
         if (failure is NoDataFailure && _products.isEmpty) {
           emit(ProductsStateEmpty());
         } else if (failure is ServerFailure) {
-          emit(ProductsStateFailure(failure.message ?? "Server error"));
+          emit(ProductsStateFailure(failure.toString()));
         } else if (_products.isNotEmpty) {
           emit(ProductsStateSuccess(Products(
               currentPage: _currentPage - 1,

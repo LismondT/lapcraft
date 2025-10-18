@@ -43,9 +43,9 @@ class CategoryRepositoryImpl implements CategoryRepository {
     } on FormatException catch (e) {
       return Left(ParsingFailure(e.message));
     } on Exception catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure());
     } catch (e) {
-      return Left(ServerFailure('Unexpected error: $e'));
+      return Left(ServerFailure());
     }
   }
 
@@ -59,9 +59,9 @@ class CategoryRepositoryImpl implements CategoryRepository {
     } on FormatException catch (e) {
       return Left(ParsingFailure(e.message));
     } on Exception catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure());
     } catch (e) {
-      return Left(ServerFailure('Unexpected error: $e'));
+      return Left(ServerFailure());
     }
   }
 }

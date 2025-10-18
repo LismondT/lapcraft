@@ -20,7 +20,7 @@ class FavoritesRepositoryImpl extends FavoritesRepository {
         return Right(null);
       });
     } on Exception catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure());
     }
   }
 
@@ -35,7 +35,7 @@ class FavoritesRepositoryImpl extends FavoritesRepository {
         return Right(products);
       });
     } on Exception catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure());
     }
   }
 
@@ -49,7 +49,7 @@ class FavoritesRepositoryImpl extends FavoritesRepository {
         return Right(isFavorite);
       });
     } on Exception catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure());
     }
   }
 
@@ -63,7 +63,7 @@ class FavoritesRepositoryImpl extends FavoritesRepository {
         return Right(null);
       });
     } on Exception catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure());
     }
   }
 }

@@ -5,6 +5,7 @@ import 'package:lapcraft/dependencies_injection.dart';
 import 'package:lapcraft/features/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:lapcraft/features/products/presentation/cubits/category_cubit.dart';
 import 'package:lapcraft/features/products/presentation/cubits/products_cubit.dart';
+import 'package:lapcraft/features/profile/presentation/cubits/auth_cubit.dart';
 
 import 'features/cart/presentation/cubits/cart_cubit.dart';
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => sl<FavoritesCubit>()..loadFavorites()),
         BlocProvider(create: (context) => sl<ProductsCubit>()),
+        BlocProvider(create: (context) => sl<AuthCubit>()..checkAuth()),
       ],
       child: MaterialApp.router(
           title: 'Lapcraft',

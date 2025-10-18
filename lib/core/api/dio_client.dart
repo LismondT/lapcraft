@@ -48,7 +48,7 @@ class DioClient {
 
       return Right(converter(response.data));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure());
     }
   }
 
@@ -69,7 +69,7 @@ class DioClient {
 
       return Right(converter(response.data));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure());
     }
   }
 }

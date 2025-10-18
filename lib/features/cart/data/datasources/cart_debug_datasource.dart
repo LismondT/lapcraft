@@ -15,7 +15,7 @@ class CartDebugDatasourceImpl extends CartDatasource {
   Future<Either<Failure, void>> add(String productId) async {
     final response = await _productsRepository.product(productId);
     response.fold((failure) {
-      return Left(ServerFailure(''));
+      return Left(ServerFailure());
     }, (data) {
       _cartItems.add(CartItem(
         productId: data.id ?? '',
@@ -63,7 +63,7 @@ class CartDebugDatasourceImpl extends CartDatasource {
       }
     } catch (e) {
       // Обработка ошибок
-      return Left(ServerFailure('Failed to update product count: ${e.toString()}'));
+      return Left(ServerFailure());
     }
   }
 

@@ -5,9 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lapcraft/core/core.dart';
 import 'package:lapcraft/features/features.dart';
+import 'package:lapcraft/features/profile/presentation/cubits/auth_cubit.dart';
+import 'package:lapcraft/features/profile/presentation/cubits/auth_state.dart';
 
 import '../../../cart/presentation/cubits/cart_cubit.dart';
-import '../pages/product_page.dart';
 
 class ProductCard extends StatelessWidget {
   final Product _product;
@@ -35,19 +36,20 @@ class ProductCard extends StatelessWidget {
 
   // Мобильная версия - горизонтальная компактная
   Widget _buildMobileCard(BuildContext context) {
-    final isInStock = (_product.stockQuantity ?? 0) > 0;
+    final isInStock = (_product.stockQuantity) > 0;
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 380;
 
-    return Container(
+    return SizedBox(
       height: 140,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: onTap ?? () {
-            context.push(Routes.product.withParameter(_product.id));
-          },
+          onTap: onTap ??
+              () {
+                context.push(Routes.product.withParameter(_product.id));
+              },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
@@ -82,7 +84,7 @@ class ProductCard extends StatelessWidget {
   // Десктоп/планшет версия - вертикальная с рейтингом
   Widget _buildDesktopCard(
       BuildContext context, bool isTablet, bool isDesktop) {
-    final isInStock = (_product.stockQuantity ?? 0) > 0;
+    final isInStock = (_product.stockQuantity) > 0;
 
     return Container(
       constraints: BoxConstraints(
@@ -93,9 +95,10 @@ class ProductCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(20),
-          onTap: onTap ?? () {
-            context.push(Routes.product.withParameter(_product.id));
-          },
+          onTap: onTap ??
+              () {
+                context.push(Routes.product.withParameter(_product.id));
+              },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -142,7 +145,7 @@ class ProductCard extends StatelessWidget {
   // ========== MOBILE VERSION ==========
 
   Widget _buildMobileImageSection(bool isSmallScreen) {
-    return Container(
+    return SizedBox(
       width: isSmallScreen ? 100 : 120,
       height: 140,
       child: ClipRRect(
@@ -150,9 +153,9 @@ class ProductCard extends StatelessWidget {
           topLeft: Radius.circular(16),
           bottomLeft: Radius.circular(16),
         ),
-        child: _product.imageUrls?.isNotEmpty ?? false
+        child: _product.imageUrls.isNotEmpty
             ? CachedNetworkImage(
-                imageUrl: _product.imageUrls!.first,
+                imageUrl: _product.imageUrls.first,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
                   color: Colors.grey[100],
@@ -185,7 +188,7 @@ class ProductCard extends StatelessWidget {
               children: [
                 // Title
                 Text(
-                  _product.title ?? 'Без названия',
+                  _product.title,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: isSmallScreen ? 12 : 13,
@@ -199,7 +202,7 @@ class ProductCard extends StatelessWidget {
 
                 // Description
                 Text(
-                  _product.description ?? "Описания нет",
+                  _product.description,
                   style: TextStyle(
                     fontSize: isSmallScreen ? 10 : 11,
                     color: Colors.grey[600],
@@ -244,9 +247,7 @@ class ProductCard extends StatelessWidget {
               // Price
               Expanded(
                 child: Text(
-                  _product.price != null
-                      ? '${_formatPrice(_product.price!)} ₽'
-                      : 'Цена не указана',
+                  '${_formatPrice(_product.price)} ₽',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: isSmallScreen ? 13 : 14,
@@ -276,11 +277,11 @@ class ProductCard extends StatelessWidget {
         topLeft: Radius.circular(20),
         topRight: Radius.circular(20),
       ),
-      child: Container(
+      child: SizedBox(
         height: isTablet ? 140 : 160,
-        child: _product.imageUrls?.isNotEmpty ?? false
+        child: _product.imageUrls.isNotEmpty
             ? CachedNetworkImage(
-                imageUrl: _product.imageUrls!.first,
+                imageUrl: _product.imageUrls.first,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
                   color: Colors.grey[100],
@@ -311,7 +312,7 @@ class ProductCard extends StatelessWidget {
             children: [
               // Title
               Text(
-                _product.title ?? 'Без названия',
+                _product.title,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: isTablet ? 14 : 16,
@@ -329,7 +330,7 @@ class ProductCard extends StatelessWidget {
                   maxHeight: isDesktop ? 60 : 48, // Больше места для описания
                 ),
                 child: Text(
-                  _product.description ?? "Описания нет",
+                  _product.description,
                   style: TextStyle(
                     fontSize: isTablet ? 12 : 13,
                     color: Colors.grey[600],
@@ -369,9 +370,7 @@ class ProductCard extends StatelessWidget {
           // Price
           Expanded(
             child: Text(
-              _product.price != null
-                  ? '${_formatPrice(_product.price!)} ₽'
-                  : 'Цена не указана',
+              '${_formatPrice(_product.price)} ₽',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -511,30 +510,59 @@ class ProductCard extends StatelessWidget {
   }
 
   void _addToCart(BuildContext context) {
-    context.read<CartCubit>().addToCart(_product.id!);
+    final isAuthed = context.read<AuthCubit>().state is AuthAuthenticated;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(Iconsax.tick_circle, size: 20, color: Colors.white),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                '${_product.title ?? "Товар"} добавлен в корзину',
-                style: TextStyle(color: Colors.white),
+    if (isAuthed) {
+      context.read<CartCubit>().addToCart(_product.id);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Iconsax.tick_circle, size: 20, color: Colors.white),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  '${_product.title} добавлен в корзину',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: const Duration(seconds: 2),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Iconsax.login, size: 20, color: Colors.white),
+              const SizedBox(width: 8),
+              Expanded(
+                child: TextButton(
+                  onPressed: () => context.go(Routes.login
+                      .withQuery('returnUrl', value: Routes.categories.path)),
+                  child: Text('Войдите, чтобы добавить товар в корзину!',
+                      style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: const Duration(seconds: 2),
         ),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+      );
+    }
   }
 
   String _formatPrice(double price) {

@@ -22,7 +22,7 @@ class FavoritesMockDatasource extends FavoritesRemoteDatasource {
 
       return Right(null);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure());
     }
   }
 

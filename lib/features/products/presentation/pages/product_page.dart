@@ -2,12 +2,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lapcraft/features/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:lapcraft/features/features.dart';
 import 'package:lapcraft/features/products/presentation/cubits/product_cubit.dart';
 import 'package:lapcraft/features/products/presentation/cubits/product_state.dart';
+import 'package:lapcraft/features/profile/presentation/cubits/auth_cubit.dart';
+import 'package:lapcraft/features/profile/presentation/cubits/auth_state.dart';
 
+import '../../../../core/app_route.dart';
 import '../../../cart/presentation/cubits/cart_cubit.dart';
 import '../../../favorites/presentation/cubits/favorites_states.dart';
 
@@ -200,7 +204,40 @@ class _ProductPageState extends State<ProductPage> {
                   color: isFavorite ? Colors.red : Colors.white,
                 ),
                 onPressed: () {
-                  context.read<FavoritesCubit>().toggleFavorite(product.id);
+                  final isAuthed =
+                      context.read<AuthCubit>().state is AuthAuthenticated;
+
+                  if (isAuthed) {
+                    context.read<FavoritesCubit>().toggleFavorite(product.id);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Row(
+                          children: [
+                            Icon(Iconsax.login, size: 20, color: Colors.white),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: TextButton(
+                                onPressed: () => context.go(Routes.login
+                                    .withQuery('returnUrl',
+                                        value: Routes.product
+                                            .withParameter(widget.productId))),
+                                child: Text(
+                                    'Войдите, чтобы добавить товар в избранное!',
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                            ),
+                          ],
+                        ),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  }
                 },
               ),
             );
@@ -617,9 +654,9 @@ class _ProductBottomBar extends StatelessWidget {
     return price
         .toStringAsFixed(price.truncateToDouble() == price ? 0 : 2)
         .replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
           (Match m) => '${m[1]} ',
-    );
+        );
   }
 }
 

@@ -2,19 +2,6 @@ abstract class Failure {
   const Failure([List properties = const <dynamic>[]]);
 }
 
-class ServerFailure extends Failure {
-  final String? message;
-
-  const ServerFailure(this.message);
-
-  @override
-  bool operator ==(Object other) =>
-      other is ServerFailure && other.message == message;
-
-  @override
-  int get hashCode => message.hashCode;
-}
-
 class NoDataFailure extends Failure {
   @override
   bool operator ==(Object other) => other is NoDataFailure;
@@ -40,16 +27,36 @@ class ParsingFailure extends Failure {
   String toString() => 'ParsingFailure: $message';
 }
 
-class NetworkFailure extends Failure {
-  @override
-  String toString() => 'NetworkFailure: No internet connection';
-}
-
 class NotFoundFailure extends Failure {
   final String message;
 
   NotFoundFailure(this.message);
 
   @override
-  String toString() => 'ParsingFailure: $message';
+  String toString() => 'Not Found Failure: $message';
+}
+
+class InvalidCredentialsFailure extends Failure {
+  @override
+  String toString() => 'Неверный email или пароль';
+}
+
+class UnauthorizedFailure extends Failure {
+  @override
+  String toString() => 'Требуется авторизация';
+}
+
+class EmailAlreadyExistsFailure extends Failure {
+  @override
+  String toString() => 'Пользователь с таким email уже существует';
+}
+
+class NetworkFailure extends Failure {
+  @override
+  String toString() => 'Ошибка сети. Проверьте подключение к интернету';
+}
+
+class ServerFailure extends Failure {
+  @override
+  String toString() => 'Ошибка сервера. Попробуйте позже';
 }
