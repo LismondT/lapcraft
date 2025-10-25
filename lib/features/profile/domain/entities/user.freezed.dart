@@ -19,7 +19,6 @@ mixin _$User {
   String get name;
   String get email;
   String? get phone;
-  List<String> get addresses;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -36,17 +35,15 @@ mixin _$User {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.phone, phone) || other.phone == phone) &&
-            const DeepCollectionEquality().equals(other.addresses, addresses));
+            (identical(other.phone, phone) || other.phone == phone));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, email, phone,
-      const DeepCollectionEquality().hash(addresses));
+  int get hashCode => Object.hash(runtimeType, id, name, email, phone);
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, phone: $phone, addresses: $addresses)';
+    return 'User(id: $id, name: $name, email: $email, phone: $phone)';
   }
 }
 
@@ -55,12 +52,7 @@ abstract mixin class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) _then) =
       _$UserCopyWithImpl;
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      String email,
-      String? phone,
-      List<String> addresses});
+  $Res call({String id, String name, String email, String? phone});
 }
 
 /// @nodoc
@@ -79,7 +71,6 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object? name = null,
     Object? email = null,
     Object? phone = freezed,
-    Object? addresses = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -98,10 +89,6 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _self.phone
           : phone // ignore: cast_nullable_to_non_nullable
               as String?,
-      addresses: null == addresses
-          ? _self.addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ));
   }
 }
@@ -113,9 +100,7 @@ class _User implements User {
       {required this.id,
       required this.name,
       required this.email,
-      required this.phone,
-      required final List<String> addresses})
-      : _addresses = addresses;
+      required this.phone});
 
   @override
   final String id;
@@ -125,13 +110,6 @@ class _User implements User {
   final String email;
   @override
   final String? phone;
-  final List<String> _addresses;
-  @override
-  List<String> get addresses {
-    if (_addresses is EqualUnmodifiableListView) return _addresses;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_addresses);
-  }
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -149,18 +127,15 @@ class _User implements User {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.phone, phone) || other.phone == phone) &&
-            const DeepCollectionEquality()
-                .equals(other._addresses, _addresses));
+            (identical(other.phone, phone) || other.phone == phone));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, email, phone,
-      const DeepCollectionEquality().hash(_addresses));
+  int get hashCode => Object.hash(runtimeType, id, name, email, phone);
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, phone: $phone, addresses: $addresses)';
+    return 'User(id: $id, name: $name, email: $email, phone: $phone)';
   }
 }
 
@@ -170,12 +145,7 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$UserCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      String email,
-      String? phone,
-      List<String> addresses});
+  $Res call({String id, String name, String email, String? phone});
 }
 
 /// @nodoc
@@ -194,7 +164,6 @@ class __$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
     Object? name = null,
     Object? email = null,
     Object? phone = freezed,
-    Object? addresses = null,
   }) {
     return _then(_User(
       id: null == id
@@ -213,10 +182,6 @@ class __$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
           ? _self.phone
           : phone // ignore: cast_nullable_to_non_nullable
               as String?,
-      addresses: null == addresses
-          ? _self._addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ));
   }
 }

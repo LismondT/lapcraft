@@ -1,11 +1,9 @@
 import 'dart:math';
 
-import 'package:dartz/dartz.dart';
-import 'package:lapcraft/core/error/failure.dart';
 import 'package:lapcraft/features/features.dart';
 
 class ProductsDebugDatasourceImpl implements ProductsDatasource {
-  final List<ProductData> _catalog = [];
+  final List<ProductResponse> _catalog = [];
   final List<String> _images = [
     'https://cdn.myanimelist.net/s/common/uploaded_files/1457954629-8e5311661dd9410b98e2971ffdc21df6.jpeg',
     'https://cdn.myanimelist.net/s/common/uploaded_files/1457954650-04a7655ca93df4b49e837c65f5aa6646.jpeg',
@@ -17,40 +15,27 @@ class ProductsDebugDatasourceImpl implements ProductsDatasource {
     final random = Random();
 
     for (int i = 0; i < itemsCount; i++) {
-      final coverImage = _images[random.nextInt(_images.length)];
-
-      final product = ProductData(
+      final product = ProductResponse(
           id: i.toString(),
           article: i,
           title: 'Предмет $i',
           description: 'Описание крутое вообще ладно да давай пока',
           price: random.nextInt(20000).toDouble(),
-          imageUrls: [coverImage],
+          imageUrls: _images,
           stockQuantity: random.nextInt(10));
       _catalog.add(product);
     }
   }
 
   @override
-  Future<Either<Failure, ProductResponse>> product(String id) async {
-    final productData = _catalog.firstWhere((x) => x.id == id);
-    final response = ProductResponse(
-        id: productData.id,
-        article: productData.article,
-        title: productData.title,
-        description: productData.description,
-        price: productData.price,
-        imageUrls: productData.imageUrls ?? [],
-        stockQuantity: productData.stockQuantity);
-    return Right(response);
+  Future<ProductResponse> product(String id) async {
+    final product = _catalog.firstWhere((x) => x.id == id);
+    return product;
   }
 
   @override
-  Future<Either<Failure, ProductsResponse>> products(int page, int pageSize,
-      {int? petId,
-      int? categoryId,
-      double? priceStart,
-      double? priceEnd}) async {
+  Future<ProductsResponse> products(int page, int pageSize,
+      {String? categoryId, double? priceStart, double? priceEnd}) async {
     final start = page * pageSize - pageSize;
     final end = (start + pageSize).clamp(0, _catalog.length);
     final products = _catalog.getRange(start, end);
@@ -61,6 +46,6 @@ class ProductsDebugDatasourceImpl implements ProductsDatasource {
 
     await Future.delayed(Duration(milliseconds: 500));
 
-    return Right(response);
+    return response;
   }
 }

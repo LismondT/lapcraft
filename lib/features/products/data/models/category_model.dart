@@ -10,15 +10,12 @@ abstract class CategoryModel with _$CategoryModel {
   const factory CategoryModel({
     required String id,
     required String name,
-    required String slug,
     String? description,
     String? parentId,
-    String? imageUrl,
     String? icon,
     String? color,
-    @Default(0) int sortOrder,
-    @Default(true) bool isActive,
-    @Default(0) int productCount,
+    @JsonKey(name: 'product_count') @Default(0) int productCount,
+    @JsonKey(name: 'children_count') @Default(0) int childrenCount,
     @Default(null) List<CategoryModel>? children,
   }) = _CategoryModel;
 
@@ -32,15 +29,12 @@ extension CategoryModelExtension on CategoryModel {
     return Category(
       id: id,
       name: name,
-      slug: slug,
       description: description,
       parentId: parentId,
-      imageUrl: imageUrl,
       icon: icon,
       color: color,
-      sortOrder: sortOrder,
-      isActive: isActive,
       productCount: productCount,
+      childrenCount: childrenCount,
       children: children?.map((child) => child.toEntity()).toList(),
     );
   }
@@ -51,14 +45,10 @@ extension CategoryExtension on Category {
     return CategoryModel(
       id: id,
       name: name,
-      slug: slug,
       description: description,
       parentId: parentId,
-      imageUrl: imageUrl,
       icon: icon,
       color: color,
-      sortOrder: sortOrder,
-      isActive: isActive,
       productCount: productCount,
       children: children?.map((child) => child.toModel()).toList(),
     );

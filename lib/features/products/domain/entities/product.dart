@@ -14,6 +14,5 @@ sealed class Product with _$Product {
     required List<String> imageUrls,
     required int stockQuantity,
     @Default('') String description,
-    @Default(false) bool isFavorite
   }) = _Product;
 }

@@ -40,20 +40,6 @@ class FavoritesRepositoryImpl extends FavoritesRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> isFavorite(String productId) async {
-    try {
-      final response = await remoteDatasource.isFavorite(productId);
-      return response.fold((failure) {
-        return Left(failure);
-      }, (isFavorite) {
-        return Right(isFavorite);
-      });
-    } on Exception catch (e) {
-      return Left(ServerFailure());
-    }
-  }
-
-  @override
   Future<Either<Failure, void>> removeFromFavorites(String productId) async {
     try {
       final response = await remoteDatasource.removeFromFavorites(productId);

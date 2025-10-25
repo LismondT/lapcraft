@@ -18,12 +18,7 @@ mixin _$UserModel {
   String get id;
   String get name;
   String get email;
-  List<String> get addresses;
   String? get phone;
-  @JsonKey(name: 'refresh_token')
-  String? get refreshToken;
-  @JsonKey(name: 'access_token')
-  String? get accessToken;
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -43,29 +38,16 @@ mixin _$UserModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            const DeepCollectionEquality().equals(other.addresses, addresses) &&
-            (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.refreshToken, refreshToken) ||
-                other.refreshToken == refreshToken) &&
-            (identical(other.accessToken, accessToken) ||
-                other.accessToken == accessToken));
+            (identical(other.phone, phone) || other.phone == phone));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      email,
-      const DeepCollectionEquality().hash(addresses),
-      phone,
-      refreshToken,
-      accessToken);
+  int get hashCode => Object.hash(runtimeType, id, name, email, phone);
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, addresses: $addresses, phone: $phone, refreshToken: $refreshToken, accessToken: $accessToken)';
+    return 'UserModel(id: $id, name: $name, email: $email, phone: $phone)';
   }
 }
 
@@ -74,14 +56,7 @@ abstract mixin class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) _then) =
       _$UserModelCopyWithImpl;
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      String email,
-      List<String> addresses,
-      String? phone,
-      @JsonKey(name: 'refresh_token') String? refreshToken,
-      @JsonKey(name: 'access_token') String? accessToken});
+  $Res call({String id, String name, String email, String? phone});
 }
 
 /// @nodoc
@@ -99,10 +74,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
     Object? id = null,
     Object? name = null,
     Object? email = null,
-    Object? addresses = null,
     Object? phone = freezed,
-    Object? refreshToken = freezed,
-    Object? accessToken = freezed,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -117,21 +89,9 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      addresses: null == addresses
-          ? _self.addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       phone: freezed == phone
           ? _self.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      refreshToken: freezed == refreshToken
-          ? _self.refreshToken
-          : refreshToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accessToken: freezed == accessToken
-          ? _self.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -141,14 +101,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
 @JsonSerializable()
 class _UserModel implements UserModel {
   const _UserModel(
-      {required this.id,
-      required this.name,
-      required this.email,
-      required final List<String> addresses,
-      this.phone,
-      @JsonKey(name: 'refresh_token') this.refreshToken,
-      @JsonKey(name: 'access_token') this.accessToken})
-      : _addresses = addresses;
+      {required this.id, required this.name, required this.email, this.phone});
   factory _UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
@@ -158,22 +111,8 @@ class _UserModel implements UserModel {
   final String name;
   @override
   final String email;
-  final List<String> _addresses;
-  @override
-  List<String> get addresses {
-    if (_addresses is EqualUnmodifiableListView) return _addresses;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_addresses);
-  }
-
   @override
   final String? phone;
-  @override
-  @JsonKey(name: 'refresh_token')
-  final String? refreshToken;
-  @override
-  @JsonKey(name: 'access_token')
-  final String? accessToken;
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -198,30 +137,16 @@ class _UserModel implements UserModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            const DeepCollectionEquality()
-                .equals(other._addresses, _addresses) &&
-            (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.refreshToken, refreshToken) ||
-                other.refreshToken == refreshToken) &&
-            (identical(other.accessToken, accessToken) ||
-                other.accessToken == accessToken));
+            (identical(other.phone, phone) || other.phone == phone));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      email,
-      const DeepCollectionEquality().hash(_addresses),
-      phone,
-      refreshToken,
-      accessToken);
+  int get hashCode => Object.hash(runtimeType, id, name, email, phone);
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, addresses: $addresses, phone: $phone, refreshToken: $refreshToken, accessToken: $accessToken)';
+    return 'UserModel(id: $id, name: $name, email: $email, phone: $phone)';
   }
 }
 
@@ -233,14 +158,7 @@ abstract mixin class _$UserModelCopyWith<$Res>
       __$UserModelCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String name,
-      String email,
-      List<String> addresses,
-      String? phone,
-      @JsonKey(name: 'refresh_token') String? refreshToken,
-      @JsonKey(name: 'access_token') String? accessToken});
+  $Res call({String id, String name, String email, String? phone});
 }
 
 /// @nodoc
@@ -258,10 +176,7 @@ class __$UserModelCopyWithImpl<$Res> implements _$UserModelCopyWith<$Res> {
     Object? id = null,
     Object? name = null,
     Object? email = null,
-    Object? addresses = null,
     Object? phone = freezed,
-    Object? refreshToken = freezed,
-    Object? accessToken = freezed,
   }) {
     return _then(_UserModel(
       id: null == id
@@ -276,21 +191,9 @@ class __$UserModelCopyWithImpl<$Res> implements _$UserModelCopyWith<$Res> {
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      addresses: null == addresses
-          ? _self._addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       phone: freezed == phone
           ? _self.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      refreshToken: freezed == refreshToken
-          ? _self.refreshToken
-          : refreshToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accessToken: freezed == accessToken
-          ? _self.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }

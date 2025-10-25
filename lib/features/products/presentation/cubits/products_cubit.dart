@@ -96,6 +96,16 @@ class ProductsCubit extends Cubit<ProductsState> {
     }
   }
 
+  void applyFiltersAndSort({
+    required Map<String, dynamic> filters,
+    required String sortBy,
+    required String sortOrder,
+  }) {
+    // Здесь реализуйте логику применения фильтров и сортировки
+    // к вашим данным
+    // Это может включать вызов API с параметрами или локальную фильтрацию
+  }
+
   void reset() {
     _currentPage = 1;
     _lastPage = 1;

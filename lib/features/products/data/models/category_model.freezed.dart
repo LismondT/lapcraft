@@ -17,15 +17,14 @@ T _$identity<T>(T value) => value;
 mixin _$CategoryModel {
   String get id;
   String get name;
-  String get slug;
   String? get description;
   String? get parentId;
-  String? get imageUrl;
   String? get icon;
   String? get color;
-  int get sortOrder;
-  bool get isActive;
+  @JsonKey(name: 'product_count')
   int get productCount;
+  @JsonKey(name: 'children_count')
+  int get childrenCount;
   List<CategoryModel>? get children;
 
   /// Create a copy of CategoryModel
@@ -46,21 +45,16 @@ mixin _$CategoryModel {
             other is CategoryModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.slug, slug) || other.slug == slug) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.parentId, parentId) ||
                 other.parentId == parentId) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.color, color) || other.color == color) &&
-            (identical(other.sortOrder, sortOrder) ||
-                other.sortOrder == sortOrder) &&
-            (identical(other.isActive, isActive) ||
-                other.isActive == isActive) &&
             (identical(other.productCount, productCount) ||
                 other.productCount == productCount) &&
+            (identical(other.childrenCount, childrenCount) ||
+                other.childrenCount == childrenCount) &&
             const DeepCollectionEquality().equals(other.children, children));
   }
 
@@ -70,20 +64,17 @@ mixin _$CategoryModel {
       runtimeType,
       id,
       name,
-      slug,
       description,
       parentId,
-      imageUrl,
       icon,
       color,
-      sortOrder,
-      isActive,
       productCount,
+      childrenCount,
       const DeepCollectionEquality().hash(children));
 
   @override
   String toString() {
-    return 'CategoryModel(id: $id, name: $name, slug: $slug, description: $description, parentId: $parentId, imageUrl: $imageUrl, icon: $icon, color: $color, sortOrder: $sortOrder, isActive: $isActive, productCount: $productCount, children: $children)';
+    return 'CategoryModel(id: $id, name: $name, description: $description, parentId: $parentId, icon: $icon, color: $color, productCount: $productCount, childrenCount: $childrenCount, children: $children)';
   }
 }
 
@@ -96,15 +87,12 @@ abstract mixin class $CategoryModelCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
-      String slug,
       String? description,
       String? parentId,
-      String? imageUrl,
       String? icon,
       String? color,
-      int sortOrder,
-      bool isActive,
-      int productCount,
+      @JsonKey(name: 'product_count') int productCount,
+      @JsonKey(name: 'children_count') int childrenCount,
       List<CategoryModel>? children});
 }
 
@@ -123,15 +111,12 @@ class _$CategoryModelCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? slug = null,
     Object? description = freezed,
     Object? parentId = freezed,
-    Object? imageUrl = freezed,
     Object? icon = freezed,
     Object? color = freezed,
-    Object? sortOrder = null,
-    Object? isActive = null,
     Object? productCount = null,
+    Object? childrenCount = null,
     Object? children = freezed,
   }) {
     return _then(_self.copyWith(
@@ -143,10 +128,6 @@ class _$CategoryModelCopyWithImpl<$Res>
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      slug: null == slug
-          ? _self.slug
-          : slug // ignore: cast_nullable_to_non_nullable
-              as String,
       description: freezed == description
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -154,10 +135,6 @@ class _$CategoryModelCopyWithImpl<$Res>
       parentId: freezed == parentId
           ? _self.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      imageUrl: freezed == imageUrl
-          ? _self.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       icon: freezed == icon
           ? _self.icon
@@ -167,17 +144,13 @@ class _$CategoryModelCopyWithImpl<$Res>
           ? _self.color
           : color // ignore: cast_nullable_to_non_nullable
               as String?,
-      sortOrder: null == sortOrder
-          ? _self.sortOrder
-          : sortOrder // ignore: cast_nullable_to_non_nullable
-              as int,
-      isActive: null == isActive
-          ? _self.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
       productCount: null == productCount
           ? _self.productCount
           : productCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      childrenCount: null == childrenCount
+          ? _self.childrenCount
+          : childrenCount // ignore: cast_nullable_to_non_nullable
               as int,
       children: freezed == children
           ? _self.children
@@ -193,15 +166,12 @@ class _CategoryModel implements CategoryModel {
   const _CategoryModel(
       {required this.id,
       required this.name,
-      required this.slug,
       this.description,
       this.parentId,
-      this.imageUrl,
       this.icon,
       this.color,
-      this.sortOrder = 0,
-      this.isActive = true,
-      this.productCount = 0,
+      @JsonKey(name: 'product_count') this.productCount = 0,
+      @JsonKey(name: 'children_count') this.childrenCount = 0,
       final List<CategoryModel>? children = null})
       : _children = children;
   factory _CategoryModel.fromJson(Map<String, dynamic> json) =>
@@ -212,26 +182,19 @@ class _CategoryModel implements CategoryModel {
   @override
   final String name;
   @override
-  final String slug;
-  @override
   final String? description;
   @override
   final String? parentId;
-  @override
-  final String? imageUrl;
   @override
   final String? icon;
   @override
   final String? color;
   @override
-  @JsonKey()
-  final int sortOrder;
-  @override
-  @JsonKey()
-  final bool isActive;
-  @override
-  @JsonKey()
+  @JsonKey(name: 'product_count')
   final int productCount;
+  @override
+  @JsonKey(name: 'children_count')
+  final int childrenCount;
   final List<CategoryModel>? _children;
   @override
   @JsonKey()
@@ -265,21 +228,16 @@ class _CategoryModel implements CategoryModel {
             other is _CategoryModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.slug, slug) || other.slug == slug) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.parentId, parentId) ||
                 other.parentId == parentId) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.color, color) || other.color == color) &&
-            (identical(other.sortOrder, sortOrder) ||
-                other.sortOrder == sortOrder) &&
-            (identical(other.isActive, isActive) ||
-                other.isActive == isActive) &&
             (identical(other.productCount, productCount) ||
                 other.productCount == productCount) &&
+            (identical(other.childrenCount, childrenCount) ||
+                other.childrenCount == childrenCount) &&
             const DeepCollectionEquality().equals(other._children, _children));
   }
 
@@ -289,20 +247,17 @@ class _CategoryModel implements CategoryModel {
       runtimeType,
       id,
       name,
-      slug,
       description,
       parentId,
-      imageUrl,
       icon,
       color,
-      sortOrder,
-      isActive,
       productCount,
+      childrenCount,
       const DeepCollectionEquality().hash(_children));
 
   @override
   String toString() {
-    return 'CategoryModel(id: $id, name: $name, slug: $slug, description: $description, parentId: $parentId, imageUrl: $imageUrl, icon: $icon, color: $color, sortOrder: $sortOrder, isActive: $isActive, productCount: $productCount, children: $children)';
+    return 'CategoryModel(id: $id, name: $name, description: $description, parentId: $parentId, icon: $icon, color: $color, productCount: $productCount, childrenCount: $childrenCount, children: $children)';
   }
 }
 
@@ -317,15 +272,12 @@ abstract mixin class _$CategoryModelCopyWith<$Res>
   $Res call(
       {String id,
       String name,
-      String slug,
       String? description,
       String? parentId,
-      String? imageUrl,
       String? icon,
       String? color,
-      int sortOrder,
-      bool isActive,
-      int productCount,
+      @JsonKey(name: 'product_count') int productCount,
+      @JsonKey(name: 'children_count') int childrenCount,
       List<CategoryModel>? children});
 }
 
@@ -344,15 +296,12 @@ class __$CategoryModelCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? slug = null,
     Object? description = freezed,
     Object? parentId = freezed,
-    Object? imageUrl = freezed,
     Object? icon = freezed,
     Object? color = freezed,
-    Object? sortOrder = null,
-    Object? isActive = null,
     Object? productCount = null,
+    Object? childrenCount = null,
     Object? children = freezed,
   }) {
     return _then(_CategoryModel(
@@ -364,10 +313,6 @@ class __$CategoryModelCopyWithImpl<$Res>
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      slug: null == slug
-          ? _self.slug
-          : slug // ignore: cast_nullable_to_non_nullable
-              as String,
       description: freezed == description
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -375,10 +320,6 @@ class __$CategoryModelCopyWithImpl<$Res>
       parentId: freezed == parentId
           ? _self.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      imageUrl: freezed == imageUrl
-          ? _self.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       icon: freezed == icon
           ? _self.icon
@@ -388,17 +329,13 @@ class __$CategoryModelCopyWithImpl<$Res>
           ? _self.color
           : color // ignore: cast_nullable_to_non_nullable
               as String?,
-      sortOrder: null == sortOrder
-          ? _self.sortOrder
-          : sortOrder // ignore: cast_nullable_to_non_nullable
-              as int,
-      isActive: null == isActive
-          ? _self.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
       productCount: null == productCount
           ? _self.productCount
           : productCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      childrenCount: null == childrenCount
+          ? _self.childrenCount
+          : childrenCount // ignore: cast_nullable_to_non_nullable
               as int,
       children: freezed == children
           ? _self._children

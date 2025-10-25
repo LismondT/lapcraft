@@ -24,7 +24,6 @@ mixin _$ProductResponse {
   String? get categoryName;
   List<String>? get imageUrls;
   int? get stockQuantity;
-  bool? get isFavorite;
 
   /// Create a copy of ProductResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -54,9 +53,7 @@ mixin _$ProductResponse {
                 other.categoryName == categoryName) &&
             const DeepCollectionEquality().equals(other.imageUrls, imageUrls) &&
             (identical(other.stockQuantity, stockQuantity) ||
-                other.stockQuantity == stockQuantity) &&
-            (identical(other.isFavorite, isFavorite) ||
-                other.isFavorite == isFavorite));
+                other.stockQuantity == stockQuantity));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -71,12 +68,11 @@ mixin _$ProductResponse {
       categoryId,
       categoryName,
       const DeepCollectionEquality().hash(imageUrls),
-      stockQuantity,
-      isFavorite);
+      stockQuantity);
 
   @override
   String toString() {
-    return 'ProductResponse(id: $id, article: $article, title: $title, description: $description, price: $price, categoryId: $categoryId, categoryName: $categoryName, imageUrls: $imageUrls, stockQuantity: $stockQuantity, isFavorite: $isFavorite)';
+    return 'ProductResponse(id: $id, article: $article, title: $title, description: $description, price: $price, categoryId: $categoryId, categoryName: $categoryName, imageUrls: $imageUrls, stockQuantity: $stockQuantity)';
   }
 }
 
@@ -95,8 +91,7 @@ abstract mixin class $ProductResponseCopyWith<$Res> {
       String? categoryId,
       String? categoryName,
       List<String>? imageUrls,
-      int? stockQuantity,
-      bool? isFavorite});
+      int? stockQuantity});
 }
 
 /// @nodoc
@@ -121,7 +116,6 @@ class _$ProductResponseCopyWithImpl<$Res>
     Object? categoryName = freezed,
     Object? imageUrls = freezed,
     Object? stockQuantity = freezed,
-    Object? isFavorite = freezed,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -160,10 +154,6 @@ class _$ProductResponseCopyWithImpl<$Res>
           ? _self.stockQuantity
           : stockQuantity // ignore: cast_nullable_to_non_nullable
               as int?,
-      isFavorite: freezed == isFavorite
-          ? _self.isFavorite
-          : isFavorite // ignore: cast_nullable_to_non_nullable
-              as bool?,
     ));
   }
 }
@@ -180,8 +170,7 @@ class _ProductResponse implements ProductResponse {
       this.categoryId,
       this.categoryName,
       final List<String>? imageUrls,
-      this.stockQuantity,
-      this.isFavorite})
+      this.stockQuantity})
       : _imageUrls = imageUrls;
   factory _ProductResponse.fromJson(Map<String, dynamic> json) =>
       _$ProductResponseFromJson(json);
@@ -212,8 +201,6 @@ class _ProductResponse implements ProductResponse {
 
   @override
   final int? stockQuantity;
-  @override
-  final bool? isFavorite;
 
   /// Create a copy of ProductResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -248,9 +235,7 @@ class _ProductResponse implements ProductResponse {
             const DeepCollectionEquality()
                 .equals(other._imageUrls, _imageUrls) &&
             (identical(other.stockQuantity, stockQuantity) ||
-                other.stockQuantity == stockQuantity) &&
-            (identical(other.isFavorite, isFavorite) ||
-                other.isFavorite == isFavorite));
+                other.stockQuantity == stockQuantity));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -265,12 +250,11 @@ class _ProductResponse implements ProductResponse {
       categoryId,
       categoryName,
       const DeepCollectionEquality().hash(_imageUrls),
-      stockQuantity,
-      isFavorite);
+      stockQuantity);
 
   @override
   String toString() {
-    return 'ProductResponse(id: $id, article: $article, title: $title, description: $description, price: $price, categoryId: $categoryId, categoryName: $categoryName, imageUrls: $imageUrls, stockQuantity: $stockQuantity, isFavorite: $isFavorite)';
+    return 'ProductResponse(id: $id, article: $article, title: $title, description: $description, price: $price, categoryId: $categoryId, categoryName: $categoryName, imageUrls: $imageUrls, stockQuantity: $stockQuantity)';
   }
 }
 
@@ -291,8 +275,7 @@ abstract mixin class _$ProductResponseCopyWith<$Res>
       String? categoryId,
       String? categoryName,
       List<String>? imageUrls,
-      int? stockQuantity,
-      bool? isFavorite});
+      int? stockQuantity});
 }
 
 /// @nodoc
@@ -317,7 +300,6 @@ class __$ProductResponseCopyWithImpl<$Res>
     Object? categoryName = freezed,
     Object? imageUrls = freezed,
     Object? stockQuantity = freezed,
-    Object? isFavorite = freezed,
   }) {
     return _then(_ProductResponse(
       id: freezed == id
@@ -356,10 +338,6 @@ class __$ProductResponseCopyWithImpl<$Res>
           ? _self.stockQuantity
           : stockQuantity // ignore: cast_nullable_to_non_nullable
               as int?,
-      isFavorite: freezed == isFavorite
-          ? _self.isFavorite
-          : isFavorite // ignore: cast_nullable_to_non_nullable
-              as bool?,
     ));
   }
 }

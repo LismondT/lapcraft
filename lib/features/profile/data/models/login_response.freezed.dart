@@ -15,8 +15,9 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$LoginResponse {
-  UserModel get user;
+  @JsonKey(name: 'access_token')
   String get accessToken;
+  @JsonKey(name: 'refresh_token')
   String get refreshToken;
 
   /// Create a copy of LoginResponse
@@ -35,7 +36,6 @@ mixin _$LoginResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is LoginResponse &&
-            (identical(other.user, user) || other.user == user) &&
             (identical(other.accessToken, accessToken) ||
                 other.accessToken == accessToken) &&
             (identical(other.refreshToken, refreshToken) ||
@@ -44,11 +44,11 @@ mixin _$LoginResponse {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, user, accessToken, refreshToken);
+  int get hashCode => Object.hash(runtimeType, accessToken, refreshToken);
 
   @override
   String toString() {
-    return 'LoginResponse(user: $user, accessToken: $accessToken, refreshToken: $refreshToken)';
+    return 'LoginResponse(accessToken: $accessToken, refreshToken: $refreshToken)';
   }
 }
 
@@ -58,9 +58,9 @@ abstract mixin class $LoginResponseCopyWith<$Res> {
           LoginResponse value, $Res Function(LoginResponse) _then) =
       _$LoginResponseCopyWithImpl;
   @useResult
-  $Res call({UserModel user, String accessToken, String refreshToken});
-
-  $UserModelCopyWith<$Res> get user;
+  $Res call(
+      {@JsonKey(name: 'access_token') String accessToken,
+      @JsonKey(name: 'refresh_token') String refreshToken});
 }
 
 /// @nodoc
@@ -76,15 +76,10 @@ class _$LoginResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = null,
     Object? accessToken = null,
     Object? refreshToken = null,
   }) {
     return _then(_self.copyWith(
-      user: null == user
-          ? _self.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserModel,
       accessToken: null == accessToken
           ? _self.accessToken
           : accessToken // ignore: cast_nullable_to_non_nullable
@@ -95,33 +90,22 @@ class _$LoginResponseCopyWithImpl<$Res>
               as String,
     ));
   }
-
-  /// Create a copy of LoginResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $UserModelCopyWith<$Res> get user {
-    return $UserModelCopyWith<$Res>(_self.user, (value) {
-      return _then(_self.copyWith(user: value));
-    });
-  }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _LoginResponse implements LoginResponse {
   const _LoginResponse(
-      {required this.user,
-      required this.accessToken,
-      required this.refreshToken});
+      {@JsonKey(name: 'access_token') required this.accessToken,
+      @JsonKey(name: 'refresh_token') required this.refreshToken});
   factory _LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseFromJson(json);
 
   @override
-  final UserModel user;
-  @override
+  @JsonKey(name: 'access_token')
   final String accessToken;
   @override
+  @JsonKey(name: 'refresh_token')
   final String refreshToken;
 
   /// Create a copy of LoginResponse
@@ -144,7 +128,6 @@ class _LoginResponse implements LoginResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _LoginResponse &&
-            (identical(other.user, user) || other.user == user) &&
             (identical(other.accessToken, accessToken) ||
                 other.accessToken == accessToken) &&
             (identical(other.refreshToken, refreshToken) ||
@@ -153,11 +136,11 @@ class _LoginResponse implements LoginResponse {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, user, accessToken, refreshToken);
+  int get hashCode => Object.hash(runtimeType, accessToken, refreshToken);
 
   @override
   String toString() {
-    return 'LoginResponse(user: $user, accessToken: $accessToken, refreshToken: $refreshToken)';
+    return 'LoginResponse(accessToken: $accessToken, refreshToken: $refreshToken)';
   }
 }
 
@@ -169,10 +152,9 @@ abstract mixin class _$LoginResponseCopyWith<$Res>
       __$LoginResponseCopyWithImpl;
   @override
   @useResult
-  $Res call({UserModel user, String accessToken, String refreshToken});
-
-  @override
-  $UserModelCopyWith<$Res> get user;
+  $Res call(
+      {@JsonKey(name: 'access_token') String accessToken,
+      @JsonKey(name: 'refresh_token') String refreshToken});
 }
 
 /// @nodoc
@@ -188,15 +170,10 @@ class __$LoginResponseCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? user = null,
     Object? accessToken = null,
     Object? refreshToken = null,
   }) {
     return _then(_LoginResponse(
-      user: null == user
-          ? _self.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserModel,
       accessToken: null == accessToken
           ? _self.accessToken
           : accessToken // ignore: cast_nullable_to_non_nullable
@@ -206,16 +183,6 @@ class __$LoginResponseCopyWithImpl<$Res>
           : refreshToken // ignore: cast_nullable_to_non_nullable
               as String,
     ));
-  }
-
-  /// Create a copy of LoginResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $UserModelCopyWith<$Res> get user {
-    return $UserModelCopyWith<$Res>(_self.user, (value) {
-      return _then(_self.copyWith(user: value));
-    });
   }
 }
 

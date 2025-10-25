@@ -9,13 +9,11 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   final GetFavorites getFavorites;
   final AddToFavorites addToFavorites;
   final RemoveFromFavorites removeFromFavorites;
-  final IsFavorite isFavorite;
 
   FavoritesCubit({
     required this.getFavorites,
     required this.addToFavorites,
     required this.removeFromFavorites,
-    required this.isFavorite,
   }) : super(const FavoritesState.initial());
 
   Future<void> loadFavorites() async {

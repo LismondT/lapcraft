@@ -106,7 +106,8 @@ class _FadeInCategoryCardState extends State<FadeInCategoryCard>
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min, // Важно: занимать только нужное место
+              mainAxisSize: MainAxisSize.min,
+              // Важно: занимать только нужное место
               children: [
                 // Icon/Image section - адаптивная высота
                 _buildIconSection(context),
@@ -153,7 +154,8 @@ class _FadeInCategoryCardState extends State<FadeInCategoryCard>
           child: Text(
             widget.category.icon ?? '🐾',
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.width * 0.08, // Адаптивный размер
+              fontSize:
+                  MediaQuery.of(context).size.width * 0.08, // Адаптивный размер
             ),
           ),
         ),
@@ -163,7 +165,8 @@ class _FadeInCategoryCardState extends State<FadeInCategoryCard>
 
   Widget _buildContentSection(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03), // Адаптивные отступы
+      padding: EdgeInsets.all(
+          MediaQuery.of(context).size.width * 0.03), // Адаптивные отступы
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -172,7 +175,8 @@ class _FadeInCategoryCardState extends State<FadeInCategoryCard>
             widget.category.name,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: MediaQuery.of(context).size.width * 0.035, // Адаптивный размер
+              fontSize: MediaQuery.of(context).size.width *
+                  0.035, // Адаптивный размер
               height: 1.2,
             ),
             maxLines: 2,
@@ -180,7 +184,8 @@ class _FadeInCategoryCardState extends State<FadeInCategoryCard>
           ),
           SizedBox(height: MediaQuery.of(context).size.width * 0.01),
           if (widget.category.description != null)
-            Expanded( // Описание может занимать оставшееся место
+            Expanded(
+              // Описание может занимать оставшееся место
               child: Text(
                 widget.category.description!,
                 style: TextStyle(
@@ -203,7 +208,8 @@ class _FadeInCategoryCardState extends State<FadeInCategoryCard>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible( // Гибкий текст для товаров
+          Flexible(
+            // Гибкий текст для товаров
             child: Text(
               '${widget.category.productCount} товаров',
               style: TextStyle(
@@ -258,7 +264,7 @@ class _FadeInCategoryCardState extends State<FadeInCategoryCard>
             ),
             const SizedBox(width: 2),
             Text(
-              '${widget.category.children?.length ?? 0}',
+              '${widget.category.childrenCount}',
               style: const TextStyle(
                 fontSize: 9,
                 fontWeight: FontWeight.bold,

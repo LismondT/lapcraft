@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lapcraft/features/profile/presentation/cubits/auth_state.dart';
 
-import '../../domain/usecases/check_auth.dart';
 import '../../domain/usecases/get_current_user.dart';
 import '../../domain/usecases/login.dart';
 import '../../domain/usecases/logout.dart';
@@ -11,14 +10,12 @@ class AuthCubit extends Cubit<AuthState> {
   final Login loginUseCase;
   final Register registerUseCase;
   final GetCurrentUser getCurrentUserUseCase;
-  final CheckAuth checkAuthUseCase;
   final Logout logoutUseCase;
 
   AuthCubit(
       {required this.loginUseCase,
       required this.registerUseCase,
       required this.getCurrentUserUseCase,
-      required this.checkAuthUseCase,
       required this.logoutUseCase})
       : super(AuthState.initial());
 
@@ -33,16 +30,11 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> checkAuth() async {
-    final isLoggedIn = await checkAuthUseCase();
-    if (isLoggedIn) {
-      final result = await getCurrentUserUseCase();
-      result.fold(
-        (failure) => emit(AuthState.unauthenticated()),
-        (user) => emit(AuthState.authenticated(user: user)),
-      );
-    } else {
-      emit(AuthState.unauthenticated());
-    }
+    final result = await getCurrentUserUseCase();
+    result.fold(
+      (failure) => emit(AuthState.unauthenticated()),
+      (user) => emit(AuthState.authenticated(user: user)),
+    );
   }
 
   Future<void> logout() async {

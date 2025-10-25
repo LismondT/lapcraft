@@ -11,10 +11,7 @@ sealed class UserModel with _$UserModel {
     required String id,
     required String name,
     required String email,
-    required List<String> addresses,
     String? phone,
-    @JsonKey(name: 'refresh_token') String? refreshToken,
-    @JsonKey(name: 'access_token') String? accessToken,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -27,7 +24,6 @@ extension UserMapper on UserModel {
       id: id,
       name: name,
       email: email,
-      addresses: addresses,
       phone: phone,
     );
   }
@@ -37,7 +33,6 @@ extension UserMapper on UserModel {
       id: id,
       name: name,
       email: email,
-      addresses: addresses,
       phone: phone,
     );
   }

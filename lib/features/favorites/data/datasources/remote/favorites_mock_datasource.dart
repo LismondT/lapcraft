@@ -13,13 +13,7 @@ class FavoritesMockDatasource extends FavoritesRemoteDatasource {
   Future<Either<Failure, void>> addToFavorites(String productId) async {
     try {
       final response = await productsDatasource.product(productId);
-      response.fold((failure) {
-        return Left(failure);
-      }, (product) {
-        _favorites.add(product);
-        return Right(null);
-      });
-
+      _favorites.add(response);
       return Right(null);
     } catch (e) {
       return Left(ServerFailure());
@@ -29,12 +23,6 @@ class FavoritesMockDatasource extends FavoritesRemoteDatasource {
   @override
   Future<Either<Failure, List<ProductResponse>>> getFavorites() async {
     return Right(_favorites);
-  }
-
-  @override
-  Future<Either<Failure, bool>> isFavorite(String productId) async {
-    final product = _favorites.firstWhere((x) => x.id == productId);
-    return Right(product.isFavorite ?? false);
   }
 
   @override

@@ -19,7 +19,6 @@ _ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) =>
           ?.map((e) => e as String)
           .toList(),
       stockQuantity: (json['stockQuantity'] as num?)?.toInt(),
-      isFavorite: json['isFavorite'] as bool?,
     );
 
 Map<String, dynamic> _$ProductResponseToJson(_ProductResponse instance) =>
@@ -33,5 +32,4 @@ Map<String, dynamic> _$ProductResponseToJson(_ProductResponse instance) =>
       'categoryName': instance.categoryName,
       'imageUrls': instance.imageUrls,
       'stockQuantity': instance.stockQuantity,
-      'isFavorite': instance.isFavorite,
     };

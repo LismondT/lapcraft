@@ -6,5 +6,5 @@ abstract class ProductsRepository {
   Future<Either<Failure, Product>> product(String id);
 
   Future<Either<Failure, Products>> products(int start, int size,
-      {int? petId, int? categoryId, double? priceStart, double? priceEnd});
+      {String? categoryId, double? priceStart, double? priceEnd});
 }

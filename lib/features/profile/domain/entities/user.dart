@@ -9,6 +9,5 @@ sealed class User with _$User {
     required String name,
     required String email,
     required String? phone,
-    required List<String> addresses
   }) = _User;
 }

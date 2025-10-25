@@ -16,7 +16,6 @@ sealed class ProductResponse with _$ProductResponse {
     String? categoryName,
     List<String>? imageUrls,
     int? stockQuantity,
-    bool? isFavorite,
   }) = _ProductResponse;
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) =>
@@ -34,6 +33,5 @@ extension ProductResponseToEntity on ProductResponse {
         categoryName: categoryName ?? 'Без категории',
         imageUrls: imageUrls ?? [],
         stockQuantity: stockQuantity ?? 0,
-        isFavorite: isFavorite ?? false,
       );
 }

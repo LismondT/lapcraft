@@ -60,3 +60,8 @@ class ServerFailure extends Failure {
   @override
   String toString() => 'Ошибка сервера. Попробуйте позже';
 }
+
+class LogoutFailure extends Failure {
+  @override
+  String toString() => '';
+}

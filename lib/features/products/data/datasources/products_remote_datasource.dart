@@ -1,37 +1,39 @@
-import 'package:dartz/dartz.dart';
 import 'package:lapcraft/core/core.dart';
 import 'package:lapcraft/features/features.dart';
 
+import '../../../../core/api/api_client.dart';
+
 class ProductsRemoteDatasourceImpl implements ProductsDatasource {
-  final DioClient _client;
+  final ApiClient _client;
 
   ProductsRemoteDatasourceImpl(this._client);
 
   @override
-  Future<Either<Failure, ProductResponse>> product(String id) async {
-    final response = await _client.get(ListApi.products + id,
-        converter: (response) =>
-            ProductResponse.fromJson(response as Map<String, dynamic>));
-
-    return response;
+  Future<ProductResponse> product(String id) async {
+    final response = await _client.get(Api.products.withItem(id));
+    final product = ProductResponse.fromJson(response as Map<String, dynamic>);
+    return product;
   }
 
   @override
-  Future<Either<Failure, ProductsResponse>> products(int page, int pageSize,
-      {int? petId,
-      int? categoryId,
-      double? priceStart,
-      double? priceEnd}) async {
-    final response = await _client.get(ListApi.products,
-        queryParameters: {
-          "page": page,
-          "size": pageSize,
-          "pet": petId ?? 0,
-          "category": categoryId ?? 0
+  Future<ProductsResponse> products(int page, int pageSize,
+      {String? categoryId, double? priceStart, double? priceEnd}) async {
+    final response = await _client.get(
+      Api.products.url,
+      queryParameters: {
+        "page": page,
+        "size": pageSize,
+        if (categoryId != null && categoryId.isNotEmpty) ...{
+          "category": categoryId
         },
-        converter: (response) =>
-            ProductsResponse.fromJson(response as Map<String, dynamic>));
+        if (priceStart != null) ...{"priceStart": priceStart},
+        if (priceEnd != null) ...{"priceEnd": priceEnd}
+      },
+    );
 
-    return response;
+    final products =
+        ProductsResponse.fromJson(response as Map<String, dynamic>);
+
+    return products;
   }
 }

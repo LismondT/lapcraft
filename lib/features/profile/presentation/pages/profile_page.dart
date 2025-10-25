@@ -212,8 +212,8 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
           SizedBox(height: 16),
 
           // Адреса
-          _buildAddressesCard(user, colorScheme),
-          SizedBox(height: 16),
+          //_buildAddressesCard(user, colorScheme),
+          //SizedBox(height: 16),
 
           // Действия
           _buildActionsCard(context, colorScheme),
@@ -295,29 +295,6 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
               ],
             ),
             SizedBox(height: 8),
-            if (user.addresses.isEmpty)
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: Text(
-                  'Нет сохраненных адресов',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              )
-            else
-              ...user.addresses.map((address) => Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: Row(
-                  children: [
-                    Icon(Iconsax.location, color: colorScheme.secondary, size: 16),
-                    SizedBox(width: 8),
-                    Expanded(child: Text(address)),
-                    IconButton(
-                      onPressed: () {/* Редактировать адрес */},
-                      icon: Icon(Iconsax.edit, size: 16),
-                    ),
-                  ],
-                ),
-              )),
           ],
         ),
       ),
