@@ -108,65 +108,48 @@ class _CartPageState extends State<CartPage> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.8,
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 20,
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                    Iconsax.shopping_cart,
-                    size: 48,
-                    color: Colors.grey[400],
-                  ),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Container(
+                width: 120,
+                height: 120,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 20,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 24),
-                const Text(
-                  'Корзина пуста',
+                child: Icon(
+                  Iconsax.shopping_cart,
+                  size: 48,
+                  color: Colors.grey[400],
+                ),
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'Корзина пуста',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 48),
+                child: Text(
+                  'Добавьте товары в корзину, чтобы сделать заказ',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: Colors.grey[600],
                   ),
                 ),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 48),
-                  child: Text(
-                    'Добавьте товары в корзину, чтобы сделать заказ',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32),
-                ElevatedButton.icon(
-                  icon: const Icon(Iconsax.shop),
-                  label: const Text('Перейти к покупкам'),
-                  onPressed: () {
-                    context.go(Routes.categories.path);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ]),
           ),
         ),
       ),
@@ -470,8 +453,7 @@ class _CartPageState extends State<CartPage> {
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
-              // В реальном приложении нужно добавить метод clearCart в Cubit
-              // context.read<CartCubit>().clearCart();
+              context.read<CartCubit>().clearCart();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text('Корзина очищена'),

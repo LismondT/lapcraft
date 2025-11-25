@@ -58,7 +58,7 @@ class AppRouter {
   static final GoRouter router = GoRouter(
       navigatorKey: _rootNavigationKey,
       initialLocation: Routes.categories.path,
-      redirect: (context, state) {
+      redirect: (context, state) async {
         final authState = context.read<AuthCubit>().state;
 
         final protectedRoutes = [
@@ -116,8 +116,8 @@ class AppRouter {
               GoRoute(
                   path: Routes.products.path,
                   builder: (context, state) {
-                    //ToDo Добавить обработку параметров
-                    return const ProductsPage();
+                    final category = state.uri.queryParameters['category']!;
+                    return ProductsPage(category: category);
                   }),
 
               // Favorites

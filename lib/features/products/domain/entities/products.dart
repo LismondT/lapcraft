@@ -7,9 +7,10 @@ part 'products.freezed.dart';
 @freezed
 sealed class Products with _$Products {
   const factory Products({
-    List<Product>? products,
-    int? currentPage,
-    int? totalPages
+    required List<Product> products,
+    required int page,
+    required int count,
+    required int total
   }) = _Products;
 }
 

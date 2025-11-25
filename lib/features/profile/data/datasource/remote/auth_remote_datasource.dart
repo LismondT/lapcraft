@@ -6,9 +6,9 @@ abstract class AuthRemoteDatasource {
   Future<LoginResponse> login(
       {required String email, required String password});
 
-  Future<UserModel> getCurrentUser({String? accessToken});
+  Future<UserModel> getCurrentUser({required String accessToken});
 
-  Future<LoginResponse> refreshToken(String refreshToken);
+  Future<void> refreshToken(String refreshToken);
 
   Future<void> logout({String? refreshToken});
 

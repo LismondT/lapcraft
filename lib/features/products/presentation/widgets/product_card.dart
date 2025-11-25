@@ -24,18 +24,10 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 600;
-    final isTablet = screenWidth >= 600 && screenWidth < 900;
-    final isDesktop = screenWidth >= 900;
-
-    return isMobile
-        ? _buildMobileCard(context)
-        : _buildDesktopCard(context, isTablet, isDesktop);
+    return _buildCard(context);
   }
 
-  // Мобильная версия - горизонтальная компактная
-  Widget _buildMobileCard(BuildContext context) {
+  Widget _buildCard(BuildContext context) {
     final isInStock = (_product.stockQuantity) > 0;
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 380;
@@ -66,12 +58,12 @@ class ProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Image section
-                _buildMobileImageSection(isSmallScreen),
+                _buildImageSection(isSmallScreen),
 
                 // Content section
                 Expanded(
-                  child: _buildMobileContentSection(
-                      context, isSmallScreen, isInStock),
+                  child:
+                      _buildContentSection(context, isSmallScreen, isInStock),
                 ),
               ],
             ),
@@ -81,70 +73,7 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  // Десктоп/планшет версия - вертикальная с рейтингом
-  Widget _buildDesktopCard(
-      BuildContext context, bool isTablet, bool isDesktop) {
-    final isInStock = (_product.stockQuantity) > 0;
-
-    return Container(
-      constraints: BoxConstraints(
-        minHeight: isTablet ? 280 : 320,
-        maxHeight: isTablet ? 320 : 360,
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(20),
-          onTap: onTap ??
-              () {
-                context.push(Routes.product.withParameter(_product.id));
-              },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 20,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Stack(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Image section
-                    _buildDesktopImageSection(isTablet),
-
-                    // Content section
-                    Expanded(
-                      child: _buildDesktopContentSection(
-                          context, isTablet, isDesktop, isInStock),
-                    ),
-
-                    // Footer section
-                    _buildDesktopFooterSection(context, isInStock),
-                  ],
-                ),
-
-                // Badges
-                if (!isInStock) _buildOutOfStockBadge(isTablet),
-                _buildFavoriteButton(isTablet),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ========== MOBILE VERSION ==========
-
-  Widget _buildMobileImageSection(bool isSmallScreen) {
+  Widget _buildImageSection(bool isSmallScreen) {
     return SizedBox(
       width: isSmallScreen ? 100 : 120,
       height: 140,
@@ -173,7 +102,7 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget _buildMobileContentSection(
+  Widget _buildContentSection(
       BuildContext context, bool isSmallScreen, bool isInStock) {
     return Padding(
       padding: EdgeInsets.all(isSmallScreen ? 8 : 12),
@@ -215,7 +144,7 @@ class ProductCard extends StatelessWidget {
                 const SizedBox(height: 6),
 
                 // Rating - добавляем рейтинг в мобильную версию
-                _buildRatingSection(true, isSmallScreen),
+                //_buildRatingSection(true, isSmallScreen),
 
                 // Stock status
                 if (!isInStock) ...[
@@ -268,129 +197,6 @@ class ProductCard extends StatelessWidget {
       ),
     );
   }
-
-  // ========== DESKTOP VERSION ==========
-
-  Widget _buildDesktopImageSection(bool isTablet) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(20),
-        topRight: Radius.circular(20),
-      ),
-      child: SizedBox(
-        height: isTablet ? 140 : 160,
-        child: _product.imageUrls.isNotEmpty
-            ? CachedNetworkImage(
-                imageUrl: _product.imageUrls.first,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  color: Colors.grey[100],
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ),
-                errorWidget: (context, url, error) => _buildPlaceholderImage(),
-              )
-            : _buildPlaceholderImage(),
-      ),
-    );
-  }
-
-  Widget _buildDesktopContentSection(
-      BuildContext context, bool isTablet, bool isDesktop, bool isInStock) {
-    return Padding(
-      padding: EdgeInsets.all(isTablet ? 12 : 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Title
-              Text(
-                _product.title,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: isTablet ? 14 : 16,
-                  height: 1.2,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-
-              const SizedBox(height: 8),
-
-              // Description - больше строк на широких экранах
-              Container(
-                constraints: BoxConstraints(
-                  maxHeight: isDesktop ? 60 : 48, // Больше места для описания
-                ),
-                child: Text(
-                  _product.description,
-                  style: TextStyle(
-                    fontSize: isTablet ? 12 : 13,
-                    color: Colors.grey[600],
-                    height: 1.3,
-                  ),
-                  maxLines: isDesktop ? 3 : 2, // 3 строки на десктопе
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-
-              const SizedBox(height: 12),
-
-              // Rating - полноценный рейтинг
-              _buildRatingSection(false, isTablet),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDesktopFooterSection(BuildContext context, bool isInStock) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: Colors.grey[100]!,
-            width: 1,
-          ),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Price
-          Expanded(
-            child: Text(
-              '${_formatPrice(_product.price)} ₽',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-
-          const SizedBox(width: 12),
-
-          // Add to cart button
-          _buildAddToCartButton(context, false, false, isInStock),
-        ],
-      ),
-    );
-  }
-
-  // ========== SHARED COMPONENTS ==========
 
   Widget _buildPlaceholderImage() {
     return Container(
@@ -474,35 +280,6 @@ class ProductCard extends StatelessWidget {
             fontSize: isTablet ? 10 : 11,
             color: Colors.white,
             fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFavoriteButton(bool isTablet) {
-    return Positioned(
-      top: 8,
-      right: 8,
-      child: Material(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(10),
-          onTap: () {
-            // Add to favorites
-          },
-          child: Container(
-            width: isTablet ? 28 : 32,
-            height: isTablet ? 28 : 32,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(
-              Iconsax.heart,
-              size: isTablet ? 14 : 16,
-              color: Colors.grey,
-            ),
           ),
         ),
       ),

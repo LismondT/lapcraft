@@ -45,3 +45,10 @@ app.*.map.json
 /android/app/release
 /lib/features/products/Z.bat
 /lib/features/products/combined_dart_files.txt
+/lib/features/cart/combine.ps1
+/lib/features/favorites/combine.ps1
+/lib/features/products/combine.ps1
+/lib/features/profile/combine.ps1
+/lib/combine.ps1
+/test/combine.ps1
+/lib/Z.bat

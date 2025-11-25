@@ -4,59 +4,68 @@ import 'package:lapcraft/features/products/presentation/cubits/products_cubit_st
 import 'package:lapcraft/features/products/products.dart';
 
 class ProductsCubit extends Cubit<ProductsState> {
-  ProductsCubit(this._getProducts) : super(ProductsStateLoading());
+  ProductsCubit(this._getProducts) : super(ProductsStateInitial());
 
   final int pageSize = 10;
 
-  int _currentPage = 1;
-  int _lastPage = 1;
+  int _currentPage = 0;
+  int _totalProducts = 0;
   final List<Product> _products = [];
   bool _isLoading = false;
+  Map<String, dynamic> _filters = {};
 
   final GetProducts _getProducts;
 
-  bool get hasReachedMax => _currentPage >= _lastPage;
+  bool get hasReachedMax => _products.length >= _totalProducts;
 
-  Future<void> loadInitialProducts() async {
+  Future<void> loadInitialProducts(String category) async {
     if (_isLoading) return;
 
     _isLoading = true;
-    _currentPage = 1;
-    _lastPage = 1;
+    _currentPage = 0;
+    _totalProducts = 0;
     _products.clear();
 
     emit(ProductsStateLoading());
-    await _fetchProducts((_currentPage, pageSize));
+    await _fetchProducts(page: 1, category: category);
   }
 
-  Future<void> loadNextPage() async {
+  Future<void> loadNextPage(String category) async {
     if (_isLoading || hasReachedMax) return;
 
     _isLoading = true;
     _currentPage++;
 
-    await _fetchProducts((_currentPage, pageSize));
+    await _fetchProducts(page: _currentPage + 1, category: category);
   }
 
-  Future<void> refreshProducts() async {
+  Future<void> refreshProducts(String category) async {
     if (_isLoading) return;
 
     _isLoading = true;
-    emit(ProductsStateRefreshing(Products(
-        currentPage: _currentPage,
-        totalPages: _lastPage,
-        products: _products)));
 
-    _currentPage = 1;
-    _lastPage = 1;
+    // Сохраняем текущие продукты для состояния обновления
+    final currentProducts = Products(
+      products: List<Product>.from(_products),
+      page: _currentPage,
+      count: pageSize,
+      total: _totalProducts,
+    );
+
+    emit(ProductsStateRefreshing(currentProducts));
+
+    _currentPage = 0;
+    _totalProducts = 0;
     _products.clear();
 
-    await _fetchProducts((_currentPage, pageSize));
+    await _fetchProducts(page: 1, category: category);
   }
 
-  Future<void> _fetchProducts((int page, int size) params) async {
+  Future<void> _fetchProducts(
+      {required int page, required String category}) async {
     try {
-      final data = await _getProducts(params);
+      final data = await _getProducts(
+          page: page, count: pageSize, category: category, filters: _filters);
 
       data.fold((failure) {
         _isLoading = false;
@@ -65,24 +74,20 @@ class ProductsCubit extends Cubit<ProductsState> {
         } else if (failure is ServerFailure) {
           emit(ProductsStateFailure(failure.toString()));
         } else if (_products.isNotEmpty) {
-          emit(ProductsStateSuccess(Products(
-              currentPage: _currentPage - 1,
-              totalPages: _lastPage,
-              products: _products)));
+          // При ошибке, но с существующими данными - показываем успех
+          emit(ProductsStateSuccess(_createProductsObject()));
         } else {
           emit(ProductsStateFailure("Неизвестная ошибка"));
         }
       }, (response) {
         _isLoading = false;
-        _products.addAll(response.products ?? []);
-        _currentPage = response.currentPage ?? _currentPage;
-        _lastPage = response.totalPages ?? _lastPage;
 
-        final updatedProducts = Products(
-          currentPage: _currentPage,
-          totalPages: _lastPage,
-          products: _products,
-        );
+        // Обновляем данные на основе ответа
+        _products.addAll(response.products);
+        _currentPage = response.page - 1; // Приводим к 0-based индексу
+        _totalProducts = response.total;
+
+        final updatedProducts = _createProductsObject();
 
         if (_products.isEmpty) {
           emit(ProductsStateEmpty());
@@ -96,21 +101,50 @@ class ProductsCubit extends Cubit<ProductsState> {
     }
   }
 
+  Products _createProductsObject() {
+    return Products(
+      products: List<Product>.from(_products),
+      page: _currentPage,
+      count: pageSize,
+      total: _totalProducts,
+    );
+  }
+
   void applyFiltersAndSort({
     required Map<String, dynamic> filters,
-    required String sortBy,
-    required String sortOrder,
+    required String category
   }) {
-    // Здесь реализуйте логику применения фильтров и сортировки
-    // к вашим данным
-    // Это может включать вызов API с параметрами или локальную фильтрацию
+    // При применении фильтров сбрасываем пагинацию
+    _currentPage = 0;
+    _totalProducts = 0;
+    _products.clear();
+    _isLoading = false;
+
+    _filters = filters;
+
+    loadInitialProducts(category);
+  }
+
+  void applySearch(String query, String category) {
+    if (query.isNotEmpty) {
+      _filters['name'] = query;
+    } else {
+      _filters.remove('name');
+    }
+    applyFiltersAndSort(filters: _filters, category: category);
+  }
+
+  void clearFilters(String category) {
+    _filters.clear();
+    applyFiltersAndSort(filters: _filters, category: category);
   }
 
   void reset() {
-    _currentPage = 1;
-    _lastPage = 1;
+    _currentPage = 0;
+    _totalProducts = 0;
     _products.clear();
     _isLoading = false;
+    _filters = {};
     emit(ProductsStateInitial());
   }
 }

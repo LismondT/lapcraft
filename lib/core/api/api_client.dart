@@ -30,7 +30,7 @@ class ApiClient {
           // Обработка 401 ошибки (токен истек)
           if (error.response?.statusCode == 401) {
             try {
-              await _refreshToken();
+              //await _refreshToken();
               // Повторяем оригинальный запрос
               return handler.resolve(await _retry(error.requestOptions));
             } catch (e) {
@@ -51,12 +51,12 @@ class ApiClient {
 
     final response = await _dio.post(
       Api.refresh.url,
-      data: {'refreshToken': refreshToken},
+      data: {'refresh_token': refreshToken},
     );
 
     await _tokenRepository.saveTokens(
-      accessToken: response.data['accessToken'],
-      refreshToken: response.data['refreshToken'],
+      accessToken: response.data['access_token'],
+      refreshToken: response.data['refresh_token'],
     );
   }
 

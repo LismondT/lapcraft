@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lapcraft/features/cart/presentation/cubits/cart_cubit_states.dart';
 import 'package:lapcraft/features/favorites/presentation/cubits/favorites_cubit.dart';
 import 'package:lapcraft/features/features.dart';
 import 'package:lapcraft/features/products/presentation/cubits/product_cubit.dart';
@@ -406,39 +407,6 @@ class _ProductPageState extends State<ProductPage> {
   Widget _buildProductDetails(Product product) {
     return Row(
       children: [
-        // Rating
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(
-            color: Colors.amber.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: const Row(
-            children: [
-              Icon(Iconsax.star1, size: 16, color: Colors.amber),
-              SizedBox(width: 4),
-              Text(
-                '4.8',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-              SizedBox(width: 2),
-              Text(
-                '(124)',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        const SizedBox(width: 12),
-
-        // Article
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
@@ -601,21 +569,37 @@ class _ProductBottomBar extends StatelessWidget {
 
           const SizedBox(width: 16),
 
-          // Add to cart button
           Expanded(
             flex: 2,
-            child: ElevatedButton.icon(
-              icon: const Icon(Iconsax.shopping_cart),
-              label: Text(isInStock ? 'Добавить в корзину' : 'Нет в наличии'),
-              onPressed: isInStock ? () => _addToCart(context, product) : null,
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
+            child: BlocBuilder<CartCubit, CartState>(
+              builder: (context, state) {
+                final isInCart =
+                    context.read<CartCubit>().isProductInCart(product.id);
+
+                return ElevatedButton.icon(
+                  icon: isInCart
+                      ? const Icon(Iconsax.box_remove)
+                      : const Icon(Iconsax.shopping_cart),
+                  label: Text(isInStock
+                      ? (isInCart ? 'Убрать из корзины' : 'Добавить в корзину')
+                      : 'Нет в наличии'),
+                  onPressed: isInStock
+                      ? (isInCart
+                          ? () => _removeFromCart(context, product)
+                          : () => _addToCart(context, product))
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: isInCart
+                        ? Colors.red
+                        : Theme.of(context).colorScheme.primary,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -624,30 +608,58 @@ class _ProductBottomBar extends StatelessWidget {
   }
 
   void _addToCart(BuildContext context, Product product) {
-    context.read<CartCubit>().addToCart(product.id);
+    final isAuthed = context.read<AuthCubit>().state is AuthAuthenticated;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            const Icon(Iconsax.tick_circle, color: Colors.white),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                '${product.title} добавлен в корзину',
-                style: const TextStyle(color: Colors.white),
+    if (isAuthed) {
+      context.read<CartCubit>().addToCart(product.id);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Iconsax.tick_circle, color: Colors.white),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  '${product.title} добавлен в корзину',
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: const Duration(seconds: 2),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Iconsax.login, size: 20, color: Colors.white),
+              const SizedBox(width: 8),
+              Expanded(
+                child: TextButton(
+                  onPressed: () => context.go(Routes.login
+                      .withQuery('returnUrl', value: Routes.categories.path)),
+                  child: Text('Войдите, чтобы добавить товар в корзину!',
+                      style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: const Duration(seconds: 2),
         ),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+      );
+    }
   }
 
   String _formatPrice(double price) {
@@ -657,6 +669,61 @@ class _ProductBottomBar extends StatelessWidget {
           RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
           (Match m) => '${m[1]} ',
         );
+  }
+
+  void _removeFromCart(BuildContext context, Product product) {
+    final isAuthed = context.read<AuthCubit>().state is AuthAuthenticated;
+    context.read<CartCubit>().removeFromCart(product.id);
+
+    if (isAuthed) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Iconsax.tick_circle, color: Colors.white),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  '${product.title} убран из корзины',
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Iconsax.login, size: 20, color: Colors.white),
+              const SizedBox(width: 8),
+              Expanded(
+                child: TextButton(
+                  onPressed: () => context.go(Routes.login
+                      .withQuery('returnUrl', value: Routes.categories.path)),
+                  child: Text('Войдите в аккаунт!',
+                      style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
   }
 }
 

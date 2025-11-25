@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../../core/app_route.dart';
 import '../../domain/entities/category.dart';
 
 class AnimatedCategoryCard extends StatelessWidget {
@@ -288,7 +289,7 @@ class _FadeInCategoryCardState extends State<FadeInCategoryCard>
       );
     } else {
       context.push(
-        '/products?category=${widget.category.id}',
+        Routes.products.withQuery('category', value: widget.category.id),
         extra: {'categoryName': widget.category.name},
       );
     }

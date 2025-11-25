@@ -65,3 +65,8 @@ class LogoutFailure extends Failure {
   @override
   String toString() => '';
 }
+
+class AccessTokenExpiredFailure extends Failure {
+  @override
+  String toString() => 'Токен доступа просрочен.';
+}

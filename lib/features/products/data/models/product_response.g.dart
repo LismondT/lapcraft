@@ -8,17 +8,17 @@ part of 'product_response.dart';
 
 _ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) =>
     _ProductResponse(
-      id: json['id'] as String?,
+      id: json['id'] as String,
       article: (json['article'] as num?)?.toInt(),
       title: json['title'] as String?,
       description: json['description'] as String?,
       price: (json['price'] as num?)?.toDouble(),
-      categoryId: json['categoryId'] as String?,
-      categoryName: json['categoryName'] as String?,
-      imageUrls: (json['imageUrls'] as List<dynamic>?)
+      categoryId: json['category_id'] as String?,
+      categoryName: json['category_name'] as String?,
+      imageUrls: (json['image_urls'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      stockQuantity: (json['stockQuantity'] as num?)?.toInt(),
+      stockQuantity: (json['stock_quantity'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ProductResponseToJson(_ProductResponse instance) =>
@@ -28,8 +28,8 @@ Map<String, dynamic> _$ProductResponseToJson(_ProductResponse instance) =>
       'title': instance.title,
       'description': instance.description,
       'price': instance.price,
-      'categoryId': instance.categoryId,
-      'categoryName': instance.categoryName,
-      'imageUrls': instance.imageUrls,
-      'stockQuantity': instance.stockQuantity,
+      'category_id': instance.categoryId,
+      'category_name': instance.categoryName,
+      'image_urls': instance.imageUrls,
+      'stock_quantity': instance.stockQuantity,
     };

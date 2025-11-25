@@ -8,9 +8,11 @@ part 'products_response.g.dart';
 @freezed
 sealed class ProductsResponse with _$ProductsResponse {
   const factory ProductsResponse(
-      {List<ProductResponse>? data,
-      int? currentPage,
-      int? totalPages}) = _ProductsResponse;
+      {
+        List<ProductResponse>? products,
+      int? page,
+      int? count,
+      int? total}) = _ProductsResponse;
 
   factory ProductsResponse.fromJson(Map<String, dynamic> json) =>
       _$ProductsResponseFromJson(json);
@@ -18,9 +20,11 @@ sealed class ProductsResponse with _$ProductsResponse {
 
 extension ProductsResponseToEntity on ProductsResponse {
   Products toEntity() => Products(
-      products: data
+      products: products
           ?.map((data) => data.toEntity())
-          .toList(),
-      currentPage: currentPage,
-      totalPages: totalPages);
+          .toList() ?? [],
+      page: page ?? 1,
+      count: count ?? 0,
+      total: total ?? 0
+  );
 }

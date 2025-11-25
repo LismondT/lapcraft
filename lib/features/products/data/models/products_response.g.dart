@@ -8,16 +8,18 @@ part of 'products_response.dart';
 
 _ProductsResponse _$ProductsResponseFromJson(Map<String, dynamic> json) =>
     _ProductsResponse(
-      data: (json['data'] as List<dynamic>?)
+      products: (json['products'] as List<dynamic>?)
           ?.map((e) => ProductResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
-      currentPage: (json['currentPage'] as num?)?.toInt(),
-      totalPages: (json['totalPages'] as num?)?.toInt(),
+      page: (json['page'] as num?)?.toInt(),
+      count: (json['count'] as num?)?.toInt(),
+      total: (json['total'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ProductsResponseToJson(_ProductsResponse instance) =>
     <String, dynamic>{
-      'data': instance.data,
-      'currentPage': instance.currentPage,
-      'totalPages': instance.totalPages,
+      'products': instance.products,
+      'page': instance.page,
+      'count': instance.count,
+      'total': instance.total,
     };

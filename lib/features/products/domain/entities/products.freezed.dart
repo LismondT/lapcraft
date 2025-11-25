@@ -15,9 +15,10 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Products {
-  List<Product>? get products;
-  int? get currentPage;
-  int? get totalPages;
+  List<Product> get products;
+  int get page;
+  int get count;
+  int get total;
 
   /// Create a copy of Products
   /// with the given fields replaced by the non-null parameter values.
@@ -32,19 +33,18 @@ mixin _$Products {
         (other.runtimeType == runtimeType &&
             other is Products &&
             const DeepCollectionEquality().equals(other.products, products) &&
-            (identical(other.currentPage, currentPage) ||
-                other.currentPage == currentPage) &&
-            (identical(other.totalPages, totalPages) ||
-                other.totalPages == totalPages));
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.count, count) || other.count == count) &&
+            (identical(other.total, total) || other.total == total));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(products), currentPage, totalPages);
+      const DeepCollectionEquality().hash(products), page, count, total);
 
   @override
   String toString() {
-    return 'Products(products: $products, currentPage: $currentPage, totalPages: $totalPages)';
+    return 'Products(products: $products, page: $page, count: $count, total: $total)';
   }
 }
 
@@ -53,7 +53,7 @@ abstract mixin class $ProductsCopyWith<$Res> {
   factory $ProductsCopyWith(Products value, $Res Function(Products) _then) =
       _$ProductsCopyWithImpl;
   @useResult
-  $Res call({List<Product>? products, int? currentPage, int? totalPages});
+  $Res call({List<Product> products, int page, int count, int total});
 }
 
 /// @nodoc
@@ -68,23 +68,28 @@ class _$ProductsCopyWithImpl<$Res> implements $ProductsCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? products = freezed,
-    Object? currentPage = freezed,
-    Object? totalPages = freezed,
+    Object? products = null,
+    Object? page = null,
+    Object? count = null,
+    Object? total = null,
   }) {
     return _then(_self.copyWith(
-      products: freezed == products
+      products: null == products
           ? _self.products
           : products // ignore: cast_nullable_to_non_nullable
-              as List<Product>?,
-      currentPage: freezed == currentPage
-          ? _self.currentPage
-          : currentPage // ignore: cast_nullable_to_non_nullable
-              as int?,
-      totalPages: freezed == totalPages
-          ? _self.totalPages
-          : totalPages // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as List<Product>,
+      page: null == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      count: null == count
+          ? _self.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+      total: null == total
+          ? _self.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -93,23 +98,26 @@ class _$ProductsCopyWithImpl<$Res> implements $ProductsCopyWith<$Res> {
 
 class _Products implements Products {
   const _Products(
-      {final List<Product>? products, this.currentPage, this.totalPages})
+      {required final List<Product> products,
+      required this.page,
+      required this.count,
+      required this.total})
       : _products = products;
 
-  final List<Product>? _products;
+  final List<Product> _products;
   @override
-  List<Product>? get products {
-    final value = _products;
-    if (value == null) return null;
+  List<Product> get products {
     if (_products is EqualUnmodifiableListView) return _products;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_products);
   }
 
   @override
-  final int? currentPage;
+  final int page;
   @override
-  final int? totalPages;
+  final int count;
+  @override
+  final int total;
 
   /// Create a copy of Products
   /// with the given fields replaced by the non-null parameter values.
@@ -125,19 +133,18 @@ class _Products implements Products {
         (other.runtimeType == runtimeType &&
             other is _Products &&
             const DeepCollectionEquality().equals(other._products, _products) &&
-            (identical(other.currentPage, currentPage) ||
-                other.currentPage == currentPage) &&
-            (identical(other.totalPages, totalPages) ||
-                other.totalPages == totalPages));
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.count, count) || other.count == count) &&
+            (identical(other.total, total) || other.total == total));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_products), currentPage, totalPages);
+      const DeepCollectionEquality().hash(_products), page, count, total);
 
   @override
   String toString() {
-    return 'Products(products: $products, currentPage: $currentPage, totalPages: $totalPages)';
+    return 'Products(products: $products, page: $page, count: $count, total: $total)';
   }
 }
 
@@ -148,7 +155,7 @@ abstract mixin class _$ProductsCopyWith<$Res>
       __$ProductsCopyWithImpl;
   @override
   @useResult
-  $Res call({List<Product>? products, int? currentPage, int? totalPages});
+  $Res call({List<Product> products, int page, int count, int total});
 }
 
 /// @nodoc
@@ -163,23 +170,28 @@ class __$ProductsCopyWithImpl<$Res> implements _$ProductsCopyWith<$Res> {
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? products = freezed,
-    Object? currentPage = freezed,
-    Object? totalPages = freezed,
+    Object? products = null,
+    Object? page = null,
+    Object? count = null,
+    Object? total = null,
   }) {
     return _then(_Products(
-      products: freezed == products
+      products: null == products
           ? _self._products
           : products // ignore: cast_nullable_to_non_nullable
-              as List<Product>?,
-      currentPage: freezed == currentPage
-          ? _self.currentPage
-          : currentPage // ignore: cast_nullable_to_non_nullable
-              as int?,
-      totalPages: freezed == totalPages
-          ? _self.totalPages
-          : totalPages // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as List<Product>,
+      page: null == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      count: null == count
+          ? _self.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+      total: null == total
+          ? _self.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }

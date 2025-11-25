@@ -18,11 +18,18 @@ class ProductsRepositoryImpl implements ProductsRepository {
   }
 
   @override
-  Future<Either<Failure, Products>> products(int start, int size,
-      {String? categoryId, double? priceStart, double? priceEnd}) async {
+  Future<Either<Failure, Products>> products(
+      {required int page,
+      required int count,
+      required String category,
+      required Map<String, dynamic> filters}) async {
     try {
-      final response = await _productsRemoteDatasource.products(start, size,
-          categoryId: categoryId, priceStart: priceStart, priceEnd: priceEnd);
+      final response = await _productsRemoteDatasource.products(
+        page: page,
+        count: count,
+        category: category,
+        filters: filters,
+      );
       return Right(response.toEntity());
     } catch (e) {
       return Left(ServerFailure());

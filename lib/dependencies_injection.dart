@@ -59,7 +59,7 @@ void _dataSources() {
   sl.registerLazySingleton<CategoryRemoteDatasource>(
       () => CategoryRemoteDatasourceImpl(client: sl()));
   sl.registerLazySingleton<ProductsDatasource>(
-      () => ProductsDebugDatasourceImpl(20));
+      () => ProductsRemoteDatasourceImpl(sl()));
   sl.registerLazySingleton<CartDatasource>(() => CartDebugDatasourceImpl(sl()));
   sl.registerLazySingleton<FavoritesRemoteDatasource>(
       () => FavoritesMockDatasource(productsDatasource: sl()));

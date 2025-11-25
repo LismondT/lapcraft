@@ -7,15 +7,15 @@ part 'product_response.g.dart';
 @freezed
 sealed class ProductResponse with _$ProductResponse {
   const factory ProductResponse({
-    String? id,
+    required String id,
     int? article,
     String? title,
     String? description,
     double? price,
-    String? categoryId,
-    String? categoryName,
-    List<String>? imageUrls,
-    int? stockQuantity,
+    @JsonKey(name: 'category_id') String? categoryId,
+    @JsonKey(name: 'category_name') String? categoryName,
+    @JsonKey(name: 'image_urls') List<String>? imageUrls,
+    @JsonKey(name: 'stock_quantity') int? stockQuantity,
   }) = _ProductResponse;
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) =>
@@ -24,7 +24,7 @@ sealed class ProductResponse with _$ProductResponse {
 
 extension ProductResponseToEntity on ProductResponse {
   Product toEntity() => Product(
-        id: id ?? '',
+        id: id,
         article: article ?? 0,
         title: title ?? 'Без названия',
         description: description ?? '',

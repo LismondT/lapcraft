@@ -10,7 +10,6 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDatasource dataSource;
   final TokenRepository tokenRepository;
 
-
   AuthRepositoryImpl({required this.dataSource, required this.tokenRepository});
 
   @override
@@ -22,7 +21,8 @@ class AuthRepositoryImpl implements AuthRepository {
           accessToken: response.accessToken,
           refreshToken: response.refreshToken);
 
-      final currentUser = await dataSource.getCurrentUser(accessToken: response.accessToken);
+      final currentUser =
+          await dataSource.getCurrentUser(accessToken: response.accessToken);
 
       return Right(currentUser.toEntity());
     } on Failure catch (failure) {
@@ -35,10 +35,17 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, User>> getCurrentUser() async {
     try {
-      final token = await tokenRepository.getAccessToken();
+      final token = await tokenRepository.getAccessToken() ?? '';
       final result = await dataSource.getCurrentUser(accessToken: token);
 
       return Right(result.toEntity());
+    } on AccessTokenExpiredFailure catch (e) {
+      final token = await tokenRepository.getAccessToken() ?? '';
+      final result = await dataSource.getCurrentUser(accessToken: token);
+
+      return Right(result.toEntity());
+    } on Failure catch (failure) {
+      return Left(failure);
     } catch (e) {
       return Left(NetworkFailure());
     }
@@ -52,12 +59,13 @@ class AuthRepositoryImpl implements AuthRepository {
 
       await tokenRepository.clearTokens();
       return const Right(null);
+    } on Failure catch (failure) {
+      return Left(failure);
     } catch (e) {
       return Left(NetworkFailure());
     }
   }
 
-  // Дополнительный метод для регистрации
   @override
   Future<Either<Failure, User>> register({
     required String login,
@@ -77,7 +85,8 @@ class AuthRepositoryImpl implements AuthRepository {
           accessToken: response.accessToken,
           refreshToken: response.refreshToken);
 
-      final currentUser = await dataSource.getCurrentUser(accessToken: response.accessToken);
+      final currentUser =
+          await dataSource.getCurrentUser(accessToken: response.accessToken);
 
       return Right(currentUser.toEntity());
     } on Failure catch (failure) {

@@ -11,28 +11,47 @@ class ProductsRemoteDatasourceImpl implements ProductsDatasource {
   @override
   Future<ProductResponse> product(String id) async {
     final response = await _client.get(Api.products.withItem(id));
-    final product = ProductResponse.fromJson(response as Map<String, dynamic>);
+    final product =
+        ProductResponse.fromJson(response.data as Map<String, dynamic>);
     return product;
   }
 
   @override
-  Future<ProductsResponse> products(int page, int pageSize,
-      {String? categoryId, double? priceStart, double? priceEnd}) async {
+  Future<ProductsResponse> products(
+      {required int page,
+      required int count,
+      required String category,
+      required Map<String, dynamic> filters}) async {
+    final queryParams = <String, dynamic>{
+      "page": page,
+      "count": count,
+      "category": category,
+    };
+
+    if (filters.containsKey('min_price')) {
+      queryParams['min_price'] = filters['min_price'];
+    }
+    if (filters.containsKey('max_price')) {
+      queryParams['max_price'] = filters['max_price'];
+    }
+    if (filters.containsKey('sort')) {
+      queryParams['sort'] = filters['sort'];
+    }
+    if (filters.containsKey('order')) {
+      queryParams['order'] = filters['order'];
+    }
+
+    if (filters.containsKey('name')) {
+      queryParams['name'] = filters['name'];
+    }
+
     final response = await _client.get(
       Api.products.url,
-      queryParameters: {
-        "page": page,
-        "size": pageSize,
-        if (categoryId != null && categoryId.isNotEmpty) ...{
-          "category": categoryId
-        },
-        if (priceStart != null) ...{"priceStart": priceStart},
-        if (priceEnd != null) ...{"priceEnd": priceEnd}
-      },
+      queryParameters: queryParams,
     );
 
     final products =
-        ProductsResponse.fromJson(response as Map<String, dynamic>);
+        ProductsResponse.fromJson(response.data as Map<String, dynamic>);
 
     return products;
   }

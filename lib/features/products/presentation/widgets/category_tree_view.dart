@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lapcraft/core/app_route.dart';
 
 import '../../domain/entities/category.dart';
 
@@ -254,8 +255,8 @@ class __CategoryTreeItemContentState extends State<_CategoryTreeItemContent> {
         setState(() => _isExpanded = true);
       }
     } else {
-      context.go(
-        '/products?category=${widget.category.id}',
+      context.push(
+        Routes.products.withQuery('category', value: widget.category.id),
         extra: {'categoryName': widget.category.name},
       );
     }

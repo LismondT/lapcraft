@@ -96,27 +96,7 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
                     ),
                   ),
                   onPressed: () => context.pop(),
-                ),
-                actions: [
-                  IconButton(
-                    icon: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Iconsax.search_normal,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    onPressed: () {
-                      // TODO: Implement search
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                ],
+                )
               ),
             ];
           },

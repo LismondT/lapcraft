@@ -15,9 +15,10 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ProductsResponse {
-  List<ProductResponse>? get data;
-  int? get currentPage;
-  int? get totalPages;
+  List<ProductResponse>? get products;
+  int? get page;
+  int? get count;
+  int? get total;
 
   /// Create a copy of ProductsResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -35,21 +36,20 @@ mixin _$ProductsResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ProductsResponse &&
-            const DeepCollectionEquality().equals(other.data, data) &&
-            (identical(other.currentPage, currentPage) ||
-                other.currentPage == currentPage) &&
-            (identical(other.totalPages, totalPages) ||
-                other.totalPages == totalPages));
+            const DeepCollectionEquality().equals(other.products, products) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.count, count) || other.count == count) &&
+            (identical(other.total, total) || other.total == total));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(data), currentPage, totalPages);
+      const DeepCollectionEquality().hash(products), page, count, total);
 
   @override
   String toString() {
-    return 'ProductsResponse(data: $data, currentPage: $currentPage, totalPages: $totalPages)';
+    return 'ProductsResponse(products: $products, page: $page, count: $count, total: $total)';
   }
 }
 
@@ -59,7 +59,8 @@ abstract mixin class $ProductsResponseCopyWith<$Res> {
           ProductsResponse value, $Res Function(ProductsResponse) _then) =
       _$ProductsResponseCopyWithImpl;
   @useResult
-  $Res call({List<ProductResponse>? data, int? currentPage, int? totalPages});
+  $Res call(
+      {List<ProductResponse>? products, int? page, int? count, int? total});
 }
 
 /// @nodoc
@@ -75,22 +76,27 @@ class _$ProductsResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
-    Object? currentPage = freezed,
-    Object? totalPages = freezed,
+    Object? products = freezed,
+    Object? page = freezed,
+    Object? count = freezed,
+    Object? total = freezed,
   }) {
     return _then(_self.copyWith(
-      data: freezed == data
-          ? _self.data
-          : data // ignore: cast_nullable_to_non_nullable
+      products: freezed == products
+          ? _self.products
+          : products // ignore: cast_nullable_to_non_nullable
               as List<ProductResponse>?,
-      currentPage: freezed == currentPage
-          ? _self.currentPage
-          : currentPage // ignore: cast_nullable_to_non_nullable
+      page: freezed == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
               as int?,
-      totalPages: freezed == totalPages
-          ? _self.totalPages
-          : totalPages // ignore: cast_nullable_to_non_nullable
+      count: freezed == count
+          ? _self.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int?,
+      total: freezed == total
+          ? _self.total
+          : total // ignore: cast_nullable_to_non_nullable
               as int?,
     ));
   }
@@ -100,25 +106,30 @@ class _$ProductsResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _ProductsResponse implements ProductsResponse {
   const _ProductsResponse(
-      {final List<ProductResponse>? data, this.currentPage, this.totalPages})
-      : _data = data;
+      {final List<ProductResponse>? products,
+      this.page,
+      this.count,
+      this.total})
+      : _products = products;
   factory _ProductsResponse.fromJson(Map<String, dynamic> json) =>
       _$ProductsResponseFromJson(json);
 
-  final List<ProductResponse>? _data;
+  final List<ProductResponse>? _products;
   @override
-  List<ProductResponse>? get data {
-    final value = _data;
+  List<ProductResponse>? get products {
+    final value = _products;
     if (value == null) return null;
-    if (_data is EqualUnmodifiableListView) return _data;
+    if (_products is EqualUnmodifiableListView) return _products;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
 
   @override
-  final int? currentPage;
+  final int? page;
   @override
-  final int? totalPages;
+  final int? count;
+  @override
+  final int? total;
 
   /// Create a copy of ProductsResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -140,21 +151,20 @@ class _ProductsResponse implements ProductsResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _ProductsResponse &&
-            const DeepCollectionEquality().equals(other._data, _data) &&
-            (identical(other.currentPage, currentPage) ||
-                other.currentPage == currentPage) &&
-            (identical(other.totalPages, totalPages) ||
-                other.totalPages == totalPages));
+            const DeepCollectionEquality().equals(other._products, _products) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.count, count) || other.count == count) &&
+            (identical(other.total, total) || other.total == total));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_data), currentPage, totalPages);
+      const DeepCollectionEquality().hash(_products), page, count, total);
 
   @override
   String toString() {
-    return 'ProductsResponse(data: $data, currentPage: $currentPage, totalPages: $totalPages)';
+    return 'ProductsResponse(products: $products, page: $page, count: $count, total: $total)';
   }
 }
 
@@ -166,7 +176,8 @@ abstract mixin class _$ProductsResponseCopyWith<$Res>
       __$ProductsResponseCopyWithImpl;
   @override
   @useResult
-  $Res call({List<ProductResponse>? data, int? currentPage, int? totalPages});
+  $Res call(
+      {List<ProductResponse>? products, int? page, int? count, int? total});
 }
 
 /// @nodoc
@@ -182,22 +193,27 @@ class __$ProductsResponseCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? data = freezed,
-    Object? currentPage = freezed,
-    Object? totalPages = freezed,
+    Object? products = freezed,
+    Object? page = freezed,
+    Object? count = freezed,
+    Object? total = freezed,
   }) {
     return _then(_ProductsResponse(
-      data: freezed == data
-          ? _self._data
-          : data // ignore: cast_nullable_to_non_nullable
+      products: freezed == products
+          ? _self._products
+          : products // ignore: cast_nullable_to_non_nullable
               as List<ProductResponse>?,
-      currentPage: freezed == currentPage
-          ? _self.currentPage
-          : currentPage // ignore: cast_nullable_to_non_nullable
+      page: freezed == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
               as int?,
-      totalPages: freezed == totalPages
-          ? _self.totalPages
-          : totalPages // ignore: cast_nullable_to_non_nullable
+      count: freezed == count
+          ? _self.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int?,
+      total: freezed == total
+          ? _self.total
+          : total // ignore: cast_nullable_to_non_nullable
               as int?,
     ));
   }

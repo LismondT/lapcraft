@@ -15,14 +15,18 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ProductResponse {
-  String? get id;
+  String get id;
   int? get article;
   String? get title;
   String? get description;
   double? get price;
+  @JsonKey(name: 'category_id')
   String? get categoryId;
+  @JsonKey(name: 'category_name')
   String? get categoryName;
+  @JsonKey(name: 'image_urls')
   List<String>? get imageUrls;
+  @JsonKey(name: 'stock_quantity')
   int? get stockQuantity;
 
   /// Create a copy of ProductResponse
@@ -83,15 +87,15 @@ abstract mixin class $ProductResponseCopyWith<$Res> {
       _$ProductResponseCopyWithImpl;
   @useResult
   $Res call(
-      {String? id,
+      {String id,
       int? article,
       String? title,
       String? description,
       double? price,
-      String? categoryId,
-      String? categoryName,
-      List<String>? imageUrls,
-      int? stockQuantity});
+      @JsonKey(name: 'category_id') String? categoryId,
+      @JsonKey(name: 'category_name') String? categoryName,
+      @JsonKey(name: 'image_urls') List<String>? imageUrls,
+      @JsonKey(name: 'stock_quantity') int? stockQuantity});
 }
 
 /// @nodoc
@@ -107,7 +111,7 @@ class _$ProductResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? article = freezed,
     Object? title = freezed,
     Object? description = freezed,
@@ -118,10 +122,10 @@ class _$ProductResponseCopyWithImpl<$Res>
     Object? stockQuantity = freezed,
   }) {
     return _then(_self.copyWith(
-      id: freezed == id
+      id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       article: freezed == article
           ? _self.article
           : article // ignore: cast_nullable_to_non_nullable
@@ -162,21 +166,21 @@ class _$ProductResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _ProductResponse implements ProductResponse {
   const _ProductResponse(
-      {this.id,
+      {required this.id,
       this.article,
       this.title,
       this.description,
       this.price,
-      this.categoryId,
-      this.categoryName,
-      final List<String>? imageUrls,
-      this.stockQuantity})
+      @JsonKey(name: 'category_id') this.categoryId,
+      @JsonKey(name: 'category_name') this.categoryName,
+      @JsonKey(name: 'image_urls') final List<String>? imageUrls,
+      @JsonKey(name: 'stock_quantity') this.stockQuantity})
       : _imageUrls = imageUrls;
   factory _ProductResponse.fromJson(Map<String, dynamic> json) =>
       _$ProductResponseFromJson(json);
 
   @override
-  final String? id;
+  final String id;
   @override
   final int? article;
   @override
@@ -186,11 +190,14 @@ class _ProductResponse implements ProductResponse {
   @override
   final double? price;
   @override
+  @JsonKey(name: 'category_id')
   final String? categoryId;
   @override
+  @JsonKey(name: 'category_name')
   final String? categoryName;
   final List<String>? _imageUrls;
   @override
+  @JsonKey(name: 'image_urls')
   List<String>? get imageUrls {
     final value = _imageUrls;
     if (value == null) return null;
@@ -200,6 +207,7 @@ class _ProductResponse implements ProductResponse {
   }
 
   @override
+  @JsonKey(name: 'stock_quantity')
   final int? stockQuantity;
 
   /// Create a copy of ProductResponse
@@ -267,15 +275,15 @@ abstract mixin class _$ProductResponseCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id,
+      {String id,
       int? article,
       String? title,
       String? description,
       double? price,
-      String? categoryId,
-      String? categoryName,
-      List<String>? imageUrls,
-      int? stockQuantity});
+      @JsonKey(name: 'category_id') String? categoryId,
+      @JsonKey(name: 'category_name') String? categoryName,
+      @JsonKey(name: 'image_urls') List<String>? imageUrls,
+      @JsonKey(name: 'stock_quantity') int? stockQuantity});
 }
 
 /// @nodoc
@@ -291,7 +299,7 @@ class __$ProductResponseCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? article = freezed,
     Object? title = freezed,
     Object? description = freezed,
@@ -302,10 +310,10 @@ class __$ProductResponseCopyWithImpl<$Res>
     Object? stockQuantity = freezed,
   }) {
     return _then(_ProductResponse(
-      id: freezed == id
+      id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       article: freezed == article
           ? _self.article
           : article // ignore: cast_nullable_to_non_nullable
